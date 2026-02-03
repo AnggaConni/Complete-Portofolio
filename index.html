@@ -93,14 +93,21 @@
                     <i class="fas fa-terminal text-term-green"></i>
                     <span class="font-mono font-bold text-lg tracking-tight">mas_angga<span class="text-term-green">.exe</span></span>
                 </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4 font-mono text-sm">
-                        <a href="#console" class="hover:text-term-green px-3 py-2 rounded-md transition">./home</a>
-                        <a href="#projects" class="hover:text-term-green px-3 py-2 rounded-md transition">./database</a>
-                        <a href="#media" class="hover:text-term-green px-3 py-2 rounded-md transition">./media</a>
-                        <a href="#experience" class="hover:text-term-green px-3 py-2 rounded-md transition">./log</a>
+                
+                <div class="flex items-center gap-4">
+                     <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4 font-mono text-sm">
+                            <a href="#console" class="hover:text-term-green px-3 py-2 rounded-md transition">./home</a>
+                            <a href="#projects" class="hover:text-term-green px-3 py-2 rounded-md transition">./database</a>
+                            <a href="#media" class="hover:text-term-green px-3 py-2 rounded-md transition">./media</a>
+                        </div>
                     </div>
+                    <!-- NEW BUTTON HERE -->
+                    <a href="https://anggaconni.github.io/#" target="_blank" class="hidden md:flex items-center gap-2 bg-slate-800 hover:bg-term-green hover:text-slate-900 border border-slate-600 text-xs font-mono py-2 px-3 rounded transition-all">
+                        <i class="fas fa-external-link-alt"></i> Go to Simple CV
+                    </a>
                 </div>
+
                 <!-- Mobile menu button -->
                 <div class="md:hidden">
                     <button class="text-gray-300 hover:text-white focus:outline-none">
@@ -111,10 +118,42 @@
         </div>
     </nav>
 
-    <!-- Hero Section: The "Console" -->
+    <!-- Hero Section: The "Console" & Behavioral Insight -->
     <section id="console" class="pt-32 pb-20 px-4">
-        <div class="max-w-5xl mx-auto">
-            <div class="glass-panel rounded-lg overflow-hidden shadow-2xl border border-term-border">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- LEFT PANEL: Research/Explanation (New Addition) -->
+            <div class="lg:col-span-4 glass-panel rounded-lg p-6 border-l-4 border-term-purple animate-fade-in order-2 lg:order-1">
+                <div class="flex items-center gap-2 mb-4 text-term-purple">
+                    <i class="fas fa-brain text-xl"></i>
+                    <h3 class="font-bold font-sans text-lg">Why this "Hard" Font?</h3>
+                </div>
+                
+                <div class="prose prose-invert prose-sm font-sans text-slate-300 leading-relaxed">
+                    <p class="mb-3 italic text-xs text-slate-400">"Not the hardest one, but just enough to trigger your brain."</p>
+                    
+                    <h4 class="font-bold text-white text-sm mt-4 mb-2">📚 Research Spotlight: Disfluency</h4>
+                    <p class="mb-2">A study by <strong>Princeton & Indiana University</strong> suggests that "hard-to-read" fonts enhance long-term memory recall.</p>
+                    
+                    <ul class="list-disc pl-4 space-y-2 mb-4 text-xs md:text-sm">
+                        <li><strong>Cognitive Engagement:</strong> Your brain works harder to decipher the text, creating deeper processing pathways.</li>
+                        <li><strong>Disfluency Hypothesis:</strong> Difficulty = increased attention = better retention.</li>
+                        <li><strong>Focus:</strong> It forces you to minimize distractions and allocate more attention to the content.</li>
+                    </ul>
+
+                    <div class="bg-slate-900/50 p-3 rounded text-xs border border-term-border mt-4">
+                        <i class="fas fa-lightbulb text-term-yellow mr-1"></i> 
+                        It’s not about making things difficult, but leveraging cognitive processes to optimize your focus on this CV.
+                    </div>
+
+                    <a href="https://anggaconni.github.io/#" class="block mt-4 text-center w-full py-2 border border-slate-600 rounded text-xs hover:bg-slate-700 transition">
+                        Give up? Go to Simple Easy-to-Read CV ➜
+                    </a>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: The Terminal (Existing) -->
+            <div class="lg:col-span-8 glass-panel rounded-lg overflow-hidden shadow-2xl border border-term-border order-1 lg:order-2">
                 <!-- Terminal Header -->
                 <div class="bg-slate-900 px-4 py-2 flex items-center justify-between border-b border-term-border">
                     <div class="flex space-x-2">
@@ -164,6 +203,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
