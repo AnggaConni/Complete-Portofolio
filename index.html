@@ -1,710 +1,1930 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mas Angga | System Log</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANGGA CONNI SAPUTRA — Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{
+  --ink:#0a0a0f;
+  --surface:#0f1117;
+  --card:#161b26;
+  --border:#1e2a3a;
+  --amber:#d4a017;
+  --amber-dim:#9a7311;
+  --amber-glow:rgba(212,160,23,0.08);
+  --teal:#1eb8b8;
+  --red:#c0392b;
+  --muted:#4a5568;
+  --text:#c8d0dc;
+  --text-bright:#e8edf4;
+  --mono:'Space Mono',monospace;
+  --serif:'Crimson Pro',serif;
+}
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        mono: ['"Fira Code"', 'monospace'],
-                        sans: ['"Inter"', 'sans-serif'],
-                    },
-                    colors: {
-                        'term-bg': '#0B1120', // Deep dark blue
-                        'term-card': '#151e32', // Lighter blue for cards
-                        'term-green': '#10B981', // Success
-                        'term-blue': '#3B82F6', // Info
-                        'term-yellow': '#F59E0B', // Warning/Coffee
-                        'term-purple': '#A855F7', // Behavioral/Psych
-                        'term-gray': '#64748B',
-                        'term-border': '#1E293B'
-                    },
-                    animation: {
-                        'blink': 'blink 1s step-end infinite',
-                        'fade-in': 'fadeIn 0.5s ease-out forwards',
-                    },
-                    keyframes: {
-                        blink: {
-                            '0%, 100%': { opacity: '1' },
-                            '50%': { opacity: '0' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #0B1120;
-            background-image: linear-gradient(rgba(30, 41, 59, 0.3) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
-            background-size: 30px 30px;
-            color: #e2e8f0;
-        }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0B1120;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
-        }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-        .glass-panel {
-            background: rgba(21, 30, 50, 0.7);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
+html{scroll-behavior:smooth;}
 
-        .code-keyword { color: #c678dd; } /* Purple */
-        .code-func { color: #61afef; } /* Blue */
-        .code-string { color: #98c379; } /* Green */
-        .code-comment { color: #5c6370; font-style: italic; } /* Gray */
-    </style>
+/* Offset anchors for sticky banner (24px) + nav (52px) = 76px */
+section[id]{scroll-margin-top:80px;}
+
+body{
+  background:var(--ink);
+  color:var(--text);
+  font-family:var(--serif);
+  font-size:16px;
+  line-height:1.7;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* NOISE OVERLAY */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:9999;
+  opacity:.6;
+}
+
+/* SCANLINE */
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.08) 2px,rgba(0,0,0,.08) 4px);
+  pointer-events:none;
+  z-index:9998;
+}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--ink);}
+::-webkit-scrollbar-thumb{background:var(--amber-dim);border-radius:2px;}
+
+/* ─── CLASSIFIED HEADER BANNER ─── */
+.classified-banner{
+  background:var(--amber);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:.65rem;
+  font-weight:700;
+  letter-spacing:.25em;
+  text-align:center;
+  padding:4px 0;
+  text-transform:uppercase;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+/* ─── NAVBAR ─── */
+nav{
+  background:rgba(10,10,15,.95);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);
+  position:sticky;
+  top:24px;
+  z-index:999;
+}
+.nav-inner{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:52px;
+}
+.nav-brand{
+  font-family:var(--mono);
+  font-size:.78rem;
+  color:var(--amber);
+  letter-spacing:.05em;
+}
+.nav-brand span{color:var(--muted);}
+.nav-links{
+  display:flex;
+  gap:4px;
+}
+.nav-links a{
+  font-family:var(--mono);
+  font-size:.65rem;
+  color:var(--muted);
+  text-decoration:none;
+  padding:5px 10px;
+  border-radius:3px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  transition:all .2s;
+}
+.nav-links a:hover{color:var(--amber);background:var(--amber-glow);}
+.nav-links a.active{color:var(--amber);}
+.nav-status{
+  font-family:var(--mono);
+  font-size:.6rem;
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pulse-dot 2s infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* ─── HERO ─── */
+.hero{
+  max-width:1200px;
+  margin:0 auto;
+  padding:60px 24px 40px;
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:40px;
+  align-items:start;
+}
+.dossier-label{
+  font-family:var(--mono);
+  font-size:.6rem;
+  letter-spacing:.3em;
+  color:var(--amber);
+  text-transform:uppercase;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.dossier-label::before{content:'';flex:1;max-width:40px;height:1px;background:var(--amber);}
+.hero-name{
+  font-family:var(--serif);
+  font-size:clamp(2.8rem,5vw,4.5rem);
+  font-weight:300;
+  line-height:1.05;
+  color:var(--text-bright);
+  margin-bottom:8px;
+  letter-spacing:-.01em;
+}
+.hero-name em{
+  font-style:italic;
+  color:var(--amber);
+}
+.hero-title{
+  font-family:var(--mono);
+  font-size:.78rem;
+  color:var(--teal);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:24px;
+}
+.hero-bio{
+  font-size:1.05rem;
+  color:var(--text);
+  max-width:580px;
+  margin-bottom:28px;
+  line-height:1.8;
+}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;}
+.tag{
+  font-family:var(--mono);
+  font-size:.6rem;
+  letter-spacing:.1em;
+  padding:4px 10px;
+  border:1px solid var(--border);
+  border-radius:2px;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+.tag.amber{border-color:var(--amber-dim);color:var(--amber);}
+.tag.teal{border-color:rgba(30,184,184,.3);color:var(--teal);}
+.hero-links{display:flex;gap:12px;flex-wrap:wrap;}
+.btn{
+  font-family:var(--mono);
+  font-size:.65rem;
+  letter-spacing:.1em;
+  padding:8px 16px;
+  border-radius:3px;
+  text-decoration:none;
+  text-transform:uppercase;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all .2s;
+  cursor:pointer;
+  border:none;
+}
+.btn-amber{background:var(--amber);color:var(--ink);font-weight:700;}
+.btn-amber:hover{background:#e8b525;transform:translateY(-1px);}
+.btn-ghost{border:1px solid var(--border);color:var(--muted);background:transparent;}
+.btn-ghost:hover{border-color:var(--amber-dim);color:var(--amber);}
+
+/* HERO SIDEBAR CARD */
+.hero-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+}
+.hero-card-header{
+  background:var(--amber);
+  padding:8px 16px;
+  font-family:var(--mono);
+  font-size:.6rem;
+  font-weight:700;
+  letter-spacing:.2em;
+  color:var(--ink);
+  text-transform:uppercase;
+  display:flex;
+  justify-content:space-between;
+}
+.hero-card-body{padding:20px;}
+.stat-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  padding:8px 0;
+  border-bottom:1px solid var(--border);
+}
+.stat-row:last-child{border:none;}
+.stat-label{font-family:var(--mono);font-size:.58rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+.stat-val{font-family:var(--mono);font-size:.85rem;color:var(--text-bright);font-weight:700;}
+.stat-val.amber{color:var(--amber);}
+.stat-val.teal{color:var(--teal);}
+
+/* ─── SECTION ─── */
+.section{
+  max-width:1200px;
+  margin:0 auto;
+  padding:40px 24px;
+}
+.section-divider{
+  border:none;
+  border-top:1px solid var(--border);
+  margin:0 24px;
+}
+.section-head{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:32px;
+}
+.section-num{
+  font-family:var(--mono);
+  font-size:.6rem;
+  color:var(--amber);
+  letter-spacing:.2em;
+}
+.section-title{
+  font-family:var(--serif);
+  font-size:1.9rem;
+  font-weight:300;
+  color:var(--text-bright);
+  letter-spacing:-.01em;
+}
+.section-title em{font-style:italic;color:var(--amber);}
+.section-line{flex:1;height:1px;background:var(--border);}
+
+/* ─── TABS ─── */
+.tab-bar{
+  display:flex;
+  gap:0;
+  border-bottom:1px solid var(--border);
+  margin-bottom:32px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.tab-bar::-webkit-scrollbar{display:none;}
+.tab-btn{
+  font-family:var(--mono);
+  font-size:.62rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:10px 18px;
+  background:none;
+  border:none;
+  color:var(--muted);
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  margin-bottom:-1px;
+  white-space:nowrap;
+  transition:all .2s;
+}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{color:var(--amber);border-bottom-color:var(--amber);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* ─── TIMELINE ─── */
+.timeline{position:relative;padding-left:40px;}
+.timeline::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:var(--border);
+}
+.tl-item{
+  position:relative;
+  margin-bottom:40px;
+  opacity:1;
+  transform:none;
+  transition:all .5s;
+}
+.js-loaded .tl-item{opacity:0;transform:translateY(16px);}
+.tl-item.visible{opacity:1!important;transform:none!important;}
+.tl-dot{
+  position:absolute;
+  left:-46px;
+  top:6px;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  border:2px solid var(--amber);
+  background:var(--ink);
+}
+.tl-dot.current{background:var(--amber);box-shadow:0 0 12px rgba(212,160,23,.5);}
+.tl-period{
+  font-family:var(--mono);
+  font-size:.58rem;
+  color:var(--amber);
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+.tl-org{
+  font-family:var(--serif);
+  font-size:1.35rem;
+  font-weight:400;
+  color:var(--text-bright);
+  margin-bottom:2px;
+}
+.tl-role{
+  font-family:var(--mono);
+  font-size:.65rem;
+  color:var(--teal);
+  letter-spacing:.08em;
+  margin-bottom:12px;
+}
+.tl-desc{
+  font-size:.95rem;
+  color:var(--text);
+  line-height:1.75;
+}
+.tl-achievements{
+  margin-top:12px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.achievement{
+  background:var(--card);
+  border-left:2px solid var(--border);
+  padding:10px 14px;
+  border-radius:0 3px 3px 0;
+  font-size:.88rem;
+  transition:border-color .2s;
+}
+.achievement:hover{border-color:var(--amber);}
+.achievement-tag{
+  font-family:var(--mono);
+  font-size:.55rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:3px;
+}
+.ach-amber .achievement-tag{color:var(--amber);}
+.ach-teal .achievement-tag{color:var(--teal);}
+.ach-red .achievement-tag{color:var(--red);}
+
+/* ─── PROJECT GRID ─── */
+.filter-bar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+}
+.filter-chip{
+  font-family:var(--mono);
+  font-size:.58rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:5px 12px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:none;
+  color:var(--muted);
+  cursor:pointer;
+  transition:all .2s;
+}
+.filter-chip:hover{border-color:var(--amber-dim);color:var(--amber);}
+.filter-chip.active{background:var(--amber);color:var(--ink);border-color:var(--amber);font-weight:700;}
+.project-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:16px;
+}
+.project-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  transition:all .25s;
+  cursor:default;
+}
+.project-card:hover{
+  border-color:var(--amber-dim);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+}
+.pc-cat{
+  font-family:var(--mono);
+  font-size:.55rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.pc-cat.tech{color:var(--teal);}
+.pc-cat.policy{color:var(--amber);}
+.pc-cat.amber{color:var(--amber);}
+.pc-cat.behavioral{color:#a855f7;}
+.pc-cat.diplomacy{color:#3b82f6;}
+.pc-title{
+  font-family:var(--serif);
+  font-size:1.05rem;
+  font-weight:600;
+  color:var(--text-bright);
+  margin-bottom:4px;
+  line-height:1.3;
+}
+.pc-org{
+  font-family:var(--mono);
+  font-size:.58rem;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+.pc-desc{font-size:.88rem;color:var(--text);flex:1;line-height:1.6;}
+.pc-strategy{
+  font-family:var(--mono);
+  font-size:.58rem;
+  color:var(--muted);
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid var(--border);
+}
+.pc-strategy span{color:var(--text);}
+.pc-link{
+  margin-top:10px;
+  font-family:var(--mono);
+  font-size:.6rem;
+  color:var(--amber);
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  transition:opacity .2s;
+}
+.pc-link:hover{opacity:.7;}
+.hidden-card{display:none!important;}
+
+/* ─── BEHAVIORAL GRID ─── */
+.behavioral-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:12px;
+}
+.beh-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:16px;
+  border-left:3px solid #a855f7;
+  transition:all .2s;
+}
+.beh-card:hover{border-left-color:var(--amber);transform:translateX(2px);}
+.beh-num{
+  font-family:var(--mono);
+  font-size:.55rem;
+  color:#a855f7;
+  letter-spacing:.15em;
+  margin-bottom:4px;
+}
+.beh-title{
+  font-size:.92rem;
+  font-weight:600;
+  color:var(--text-bright);
+  margin-bottom:4px;
+}
+.beh-ctx{
+  font-family:var(--mono);
+  font-size:.55rem;
+  color:var(--amber);
+  letter-spacing:.08em;
+  margin-bottom:6px;
+}
+.beh-desc{font-size:.83rem;color:var(--text);}
+
+/* ─── PUBLICATIONS TABLE ─── */
+.pub-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.85rem;
+}
+.pub-table th{
+  font-family:var(--mono);
+  font-size:.55rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding:8px 12px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+  background:var(--card);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.pub-table td{
+  padding:8px 12px;
+  border-bottom:1px solid rgba(30,42,58,.5);
+}
+.pub-table tr:hover td{background:var(--amber-glow);}
+.pub-type-badge{
+  font-family:var(--mono);
+  font-size:.5rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:2px 6px;
+  border-radius:2px;
+}
+.badge-author{background:rgba(212,160,23,.15);color:var(--amber);}
+.badge-editor{background:rgba(30,184,184,.1);color:var(--teal);}
+.badge-writer{background:rgba(74,85,104,.3);color:var(--muted);}
+
+/* ─── EDUCATION CARDS ─── */
+.edu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
+.edu-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:24px;
+  position:relative;
+  overflow:hidden;
+}
+.edu-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--amber),transparent);
+}
+.edu-degree{
+  font-family:var(--serif);
+  font-size:1.05rem;
+  font-weight:600;
+  color:var(--text-bright);
+  margin-bottom:4px;
+}
+.edu-school{
+  font-family:var(--mono);
+  font-size:.62rem;
+  color:var(--teal);
+  letter-spacing:.08em;
+  margin-bottom:4px;
+}
+.edu-period{
+  font-family:var(--mono);
+  font-size:.58rem;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+.edu-gpa{
+  display:inline-block;
+  background:rgba(212,160,23,.1);
+  border:1px solid var(--amber-dim);
+  padding:2px 8px;
+  border-radius:2px;
+  font-family:var(--mono);
+  font-size:.62rem;
+  color:var(--amber);
+  margin-bottom:12px;
+}
+.edu-note{font-size:.88rem;color:var(--text);line-height:1.65;}
+
+/* ─── SKILLS SECTION ─── */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+.skill-category{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:16px;
+}
+.skill-cat-title{
+  font-family:var(--mono);
+  font-size:.6rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--amber);
+  margin-bottom:12px;
+  padding-bottom:8px;
+  border-bottom:1px solid var(--border);
+}
+.skill-item{
+  font-size:.88rem;
+  color:var(--text);
+  padding:3px 0;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.skill-item::before{content:'—';color:var(--border);font-size:.7rem;}
+
+/* ─── CONTACT ─── */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.contact-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:20px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  transition:all .2s;
+  text-decoration:none;
+}
+.contact-card:hover{border-color:var(--amber-dim);transform:translateY(-1px);}
+.contact-icon{
+  width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--amber-glow);
+  border:1px solid var(--amber-dim);
+  border-radius:3px;
+  color:var(--amber);
+  font-size:1rem;
+  flex-shrink:0;
+}
+.contact-label{
+  font-family:var(--mono);
+  font-size:.55rem;
+  color:var(--muted);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:2px;
+}
+.contact-val{
+  font-size:.92rem;
+  color:var(--text-bright);
+}
+
+/* ─── FOOTER ─── */
+footer{
+  border-top:1px solid var(--border);
+  padding:24px;
+  text-align:center;
+  font-family:var(--mono);
+  font-size:.58rem;
+  color:var(--muted);
+  letter-spacing:.1em;
+}
+footer span{color:var(--amber);}
+
+/* ─── COLLAPSE ─── */
+.collapsible{cursor:pointer;user-select:none;}
+.collapsible .caret{
+  font-family:var(--mono);
+  font-size:.65rem;
+  color:var(--muted);
+  transition:transform .2s;
+  display:inline-block;
+  margin-left:8px;
+}
+.collapsible.open .caret{transform:rotate(90deg);}
+.collapse-body{overflow:hidden;max-height:0;transition:max-height .4s ease;}
+.collapse-body.open{max-height:5000px;}
+
+/* MOBILE NAV HAMBURGER */
+.ham{display:none;background:none;border:none;color:var(--text);font-size:1.1rem;cursor:pointer;padding:4px;}
+.mobile-nav{display:none;flex-direction:column;gap:4px;padding:12px 24px;border-top:1px solid var(--border);}
+.mobile-nav a{font-family:var(--mono);font-size:.65rem;color:var(--muted);text-decoration:none;padding:6px 0;letter-spacing:.1em;text-transform:uppercase;}
+.mobile-nav.open{display:flex;}
+
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;gap:24px;}
+  .hero-card{display:none;}
+  nav .nav-links,.nav-status{display:none;}
+  .ham{display:block;}
+  .section{padding:32px 16px;}
+  .timeline{padding-left:24px;}
+  .tl-dot{left:-30px;}
+}
+
+/* FADE-IN — visible by default; animation applied only when JS is active */
+.fade-in{opacity:1;transform:none;transition:opacity .6s,transform .6s;}
+.js-loaded .fade-in{opacity:0;transform:translateY(20px);}
+.js-loaded .fade-in.visible{opacity:1;transform:none;}
+
+/* TYPEWRITER FOR HERO */
+@keyframes type{from{width:0;}}
+@keyframes blink-caret{50%{border-color:transparent;}}
+</style>
 </head>
-<body class="font-sans min-h-screen flex flex-col">
+<body>
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-term-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-terminal text-term-green"></i>
-                    <span class="font-mono font-bold text-lg tracking-tight">mas_angga<span class="text-term-green">.exe</span></span>
-                </div>
-                
-                <div class="flex items-center gap-4">
-                     <div class="hidden md:block">
-                        <div class="ml-10 flex items-baseline space-x-4 font-mono text-sm">
-                            <a href="#console" class="hover:text-term-green px-3 py-2 rounded-md transition">./home</a>
-                            <a href="#projects" class="hover:text-term-green px-3 py-2 rounded-md transition">./database</a>
-                            <a href="#media" class="hover:text-term-green px-3 py-2 rounded-md transition">./media</a>
-                        </div>
-                    </div>
-                    <!-- NEW BUTTON HERE -->
-                    <a href="https://anggaconni.github.io/#" target="_blank" class="hidden md:flex items-center gap-2 bg-slate-800 hover:bg-term-green hover:text-slate-900 border border-slate-600 text-xs font-mono py-2 px-3 rounded transition-all">
-                        <i class="fas fa-external-link-alt"></i> Go to Simple CV
-                    </a>
-                </div>
+<!-- CLASSIFIED BANNER -->
+<div class="classified-banner">⬛ PROFESSIONAL DOSSIER · ANGGA CONNI SAPUTRA · JAKARTA, INDONESIA · CLEARANCE: PUBLIC ⬛</div>
 
-                <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button class="text-gray-300 hover:text-white focus:outline-none">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">ACS<span>://</span>portfolio.exe</div>
+    <div class="nav-links">
+      <a href="#profile" class="active">Profile</a>
+      <a href="#experience">Experience</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#behavioral">Influence</a>
+      <a href="#publications">Publications</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-status">
+      <div class="status-dot"></div>
+      <span>ONLINE · JKT</span>
+    </div>
+    <button class="ham" onclick="toggleMobileNav()"><i class="fas fa-bars"></i></button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#profile">Profile</a>
+    <a href="#experience">Experience</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#behavioral">Influence</a>
+    <a href="#publications">Publications</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="profile" class="hero">
+  <div>
+    <div class="dossier-label">Personnel File · ID-2025-ACS</div>
+    <h1 class="hero-name">Angga <em>Conni</em><br>Saputra</h1>
+    <div class="hero-title">Change Management · Public Policy · Gov-Tech · Digital Transformation</div>
+    <p class="hero-bio">
+      15+ years architecting institutional reform across UN agencies, government ministries, and the private sector. Specialist in bridging high-level policy with grassroots implementation across LMICs — deploying behavioral science, informal diplomacy, and zero-cost digital ecosystems to drive lasting change.
+    </p>
+    <div class="hero-tags">
+      <span class="tag amber">UNESCO · UNDP</span>
+      <span class="tag teal">Gov-Tech Innovator</span>
+      <span class="tag">Behavioral Science</span>
+      <span class="tag">Health Supply Chain</span>
+      <span class="tag">Cultural Heritage</span>
+      <span class="tag">ESD · SDGs</span>
+      <span class="tag">Policy Foresight</span>
+      <span class="tag">48 Publications</span>
+    </div>
+    <div class="hero-links">
+      <a href="https://anggaconni.github.io" target="_blank" class="btn btn-amber"><i class="fas fa-external-link-alt"></i> Portfolio Site</a>
+      <a href="https://linkedin.com/in/angga-conni/" target="_blank" class="btn btn-ghost"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+      <a href="/cdn-cgi/l/email-protection#7d1e12131314180707531e1212113d1a101c1411531e1210" class="btn btn-ghost"><i class="fas fa-envelope"></i> Email</a>
+      <a href="https://wa.me/628998788909" target="_blank" class="btn btn-ghost"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    </div>
+  </div>
+  <div class="hero-card">
+    <div class="hero-card-header">
+      <span>Intel Summary</span>
+      <span>2025-02</span>
+    </div>
+    <div class="hero-card-body">
+      <div class="stat-row">
+        <span class="stat-label">Experience</span>
+        <span class="stat-val amber">15+ Years</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">UN Experience</span>
+        <span class="stat-val teal">UNESCO · UNDP</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Publications</span>
+        <span class="stat-val">48 ISBNs</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Tech Stack</span>
+        <span class="stat-val">JS · Python · GAS</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Location</span>
+        <span class="stat-val">Jakarta, ID · 13650</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Status</span>
+        <span class="stat-val amber">Open · Consulting</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Clearance Level</span>
+        <span class="stat-val teal">Multilateral</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Coffee Index</span>
+        <span class="stat-val">HIGH ☕</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ─── EXPERIENCE ─── -->
+<section id="experience" class="section fade-in">
+  <div class="section-head">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Professional <em>Experience</em></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="timeline">
+
+    <!-- INDEPENDENT CONSULTANT -->
+    <div class="tl-item">
+      <div class="tl-dot current"></div>
+      <div class="tl-period">2025 — Present</div>
+      <div class="tl-org">Independent Consultant</div>
+      <div class="tl-role">Policy Innovation · Gov-Tech · Digital Systems · Behavioral Change</div>
+      <div class="tl-desc">Supporting government ministries, schools, and private organizations in piloting innovations, developing digital systems, and creating sustainable solutions that empower communities and institutions.</div>
+      <div class="tl-achievements">
+
+        <div class="achievement ach-amber collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Ministry of Health (Kemenkes) <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Designed a draft digital health reporting and evaluation system for specialist medical education. Introduced a two-way evaluation mechanism (subordinate ↔ supervisor), breaking from traditional UN and health governance models. This reform responded to 2,600+ reported bullying cases in specialist medical programs, promoting accountability and safer learning environments.</div>
+          </div>
         </div>
-    </nav>
 
-    <!-- Hero Section: The "Console" & Behavioral Insight -->
-    <section id="console" class="pt-32 pb-20 px-4">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            <!-- LEFT PANEL: Research/Explanation (New Addition) -->
-            <div class="lg:col-span-4 glass-panel rounded-lg p-6 border-l-4 border-term-purple animate-fade-in order-2 lg:order-1">
-                <div class="flex items-center gap-2 mb-4 text-term-purple">
-                    <i class="fas fa-brain text-xl"></i>
-                    <h3 class="font-bold font-sans text-lg">Why this "Hard" Font?</h3>
-                </div>
-                
-                <div class="prose prose-invert prose-sm font-sans text-slate-300 leading-relaxed">
-                    <p class="mb-3 italic text-xs text-slate-400">"Not the hardest one, but just enough to trigger your brain."</p>
-                    
-                    <h4 class="font-bold text-white text-sm mt-4 mb-2">📚 Research Spotlight: Disfluency</h4>
-                    <p class="mb-2">A study by <strong>Princeton & Indiana University</strong> suggests that "hard-to-read" fonts enhance long-term memory recall.</p>
-                    
-                    <ul class="list-disc pl-4 space-y-2 mb-4 text-xs md:text-sm">
-                        <li><strong>Cognitive Engagement:</strong> Your brain works harder to decipher the text, creating deeper processing pathways.</li>
-                        <li><strong>Disfluency Hypothesis:</strong> Difficulty = increased attention = better retention.</li>
-                        <li><strong>Focus:</strong> It forces you to minimize distractions and allocate more attention to the content.</li>
-                    </ul>
-
-                    <div class="bg-slate-900/50 p-3 rounded text-xs border border-term-border mt-4">
-                        <i class="fas fa-lightbulb text-term-yellow mr-1"></i> 
-                        It’s not about making things difficult, but leveraging cognitive processes to optimize your focus on this CV.
-                    </div>
-
-                    <a href="https://anggaconni.github.io/#" class="block mt-4 text-center w-full py-2 border border-slate-600 rounded text-xs hover:bg-slate-700 transition">
-                        Give up? Go to Simple Easy-to-Read CV ➜
-                    </a>
-                </div>
-            </div>
-
-            <!-- RIGHT PANEL: The Terminal (Existing) -->
-            <div class="lg:col-span-8 glass-panel rounded-lg overflow-hidden shadow-2xl border border-term-border order-1 lg:order-2">
-                <!-- Terminal Header -->
-                <div class="bg-slate-900 px-4 py-2 flex items-center justify-between border-b border-term-border">
-                    <div class="flex space-x-2">
-                        <div class="w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 transition"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-600 transition"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500 hover:bg-green-600 transition"></div>
-                    </div>
-                    <div class="text-xs text-slate-400 font-mono flex items-center gap-2">
-                        <i class="fas fa-coffee text-term-yellow"></i>
-                        <span>admin@angga-portfolio:~</span>
-                    </div>
-                </div>
-                
-                <!-- Terminal Body -->
-                <div class="p-6 md:p-10 font-mono text-sm md:text-base leading-relaxed">
-                    <div class="mb-4">
-                        <span class="text-term-green">➜</span> <span class="text-blue-400">~</span> <span class="text-yellow-300">whoami</span>
-                    </div>
-                    <div class="mb-6 pl-4 border-l-2 border-term-border">
-                        <p class="mb-2">Loading profile module... <span class="text-term-green">Done.</span></p>
-                        <p class="mb-2">Name: <span class="text-white font-bold">ANGGA CONNI SAPUTRA</span></p>
-                        <p class="mb-2">Role: <span class="text-term-blue">Change Management & Public Policy Specialist</span></p>
-                        <p class="mb-2">Status: <span class="text-term-green animate-pulse">● Online</span> (Jakarta, ID)</p>
-                        <p class="text-slate-400 mt-4 max-w-2xl leading-relaxed">
-                            <span class="code-comment">// 13+ years experience driving digital transformation & strategic reforms.</span>
-                            <br><span class="code-comment">// Expert in bridging high-level policy & grassroots implementation in LMICs.</span>
-                            <br><span class="code-comment">// Proven track record: UN Agencies (UNESCO, UNDP) & Gov Ministries.</span>
-                            <br><span class="code-comment">// Focus: Health Supply Chain, Education for Sustainable Development, Data-Driven Policy.</span>
-                            <br><span class="code-comment text-term-yellow">// BUILD_ORIGIN: Born from "Gabut" (Productive Boredom) & a desire to prove Policy folks can Code.</span>
-                        </p>
-                    </div>
-
-                    <div class="mb-4">
-                        <span class="text-term-green">➜</span> <span class="text-blue-400">~</span> <span class="text-yellow-300">cat current_stats.json</span>
-                    </div>
-                    <div class="mb-6 pl-4 text-slate-300">
-                        {
-                            "Gov_Tech_Solutions": "Deployed (E-Persuratan, Foodways)",
-                            "Behavioral_Tactics": ["Tit-for-Tat", "Ben Franklin Effect", "Social Proof"],
-                            "Diplomacy_Level": "Expert (Reframing/De-escalation)",
-                            "Publications": "48 Books (Author/Editor)",
-                            "Coffee_Intake": "High"
-                        }
-                    </div>
-                    
-                    <div>
-                        <span class="text-term-green">➜</span> <span class="text-blue-400">~</span> <span class="animate-blink">_</span>
-                    </div>
-                </div>
-            </div>
-
+        <div class="achievement ach-teal collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Ministry of Education (Kemendikdasmen) — Ocean Literacy Pilot "Blue School" <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Co-developed the "Toward a Blue School" project at SMAN 8 Balikpapan, integrating ocean literacy, zero waste, and digital learning. Trained students to use Google Forms, Data Studio, and Wixsite to independently collect and visualize data on mangrove ecosystems. Inspired by UNESCO's Sandwatch methodology. Conducted Horizon Scanning workshops with students, teachers, and communities. Expanded the initiative to SMPN 25 Balikpapan, a green-curriculum school built above the sea.</div>
+          </div>
         </div>
-    </section>
 
-    <!-- Stats / Skills Grid -->
-    <section class="py-10 px-4">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="glass-panel p-5 rounded-lg border-l-4 border-term-green hover:translate-y-[-2px] transition duration-300">
-                <div class="text-slate-400 text-xs font-mono mb-1">EXPERIENCE</div>
-                <div class="text-2xl font-bold font-mono">15+ Years</div>
-                <div class="text-xs text-slate-500 mt-2">Since 2009</div>
-            </div>
-            <div class="glass-panel p-5 rounded-lg border-l-4 border-term-blue hover:translate-y-[-2px] transition duration-300">
-                <div class="text-slate-400 text-xs font-mono mb-1">DELIVERABLES</div>
-                <div class="text-2xl font-bold font-mono">70+ Logs</div>
-                <div class="text-xs text-slate-500 mt-2">System Entries Loaded</div>
-            </div>
-            <div class="glass-panel p-5 rounded-lg border-l-4 border-term-yellow hover:translate-y-[-2px] transition duration-300">
-                <div class="text-slate-400 text-xs font-mono mb-1">TECH STACK</div>
-                <div class="text-2xl font-bold font-mono">JS / Python</div>
-                <div class="text-xs text-slate-500 mt-2">Three.js, Google Apps Script</div>
-            </div>
-            <div class="glass-panel p-5 rounded-lg border-l-4 border-term-purple hover:translate-y-[-2px] transition duration-300">
-                <div class="text-slate-400 text-xs font-mono mb-1">PUBLICATIONS</div>
-                <div class="text-2xl font-bold font-mono">48 ISBNs</div>
-                <div class="text-xs text-slate-500 mt-2">Author & Copy Editor</div>
-            </div>
+        <div class="achievement collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Kemenko PMK — Foresight & Policy <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Delivered capacity-building sessions on Horizon Scanning methodology as a foresight and policy dialogue tool. Presented international applications (UK and Italy) and developed a simplified version for Indonesia's inter-ministerial context. Supported dissemination through the Persatuan Profesi Kebijakan Publik, institutionalizing foresight-based policymaking.</div>
+          </div>
         </div>
-    </section>
 
-    <!-- Featured Projects (Filterable) -->
-    <section id="projects" class="py-20 px-4">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-center justify-between mb-10">
-                <div>
-                    <h2 class="text-3xl font-bold font-sans text-white mb-2"><i class="fas fa-database text-term-yellow mr-3"></i>Knowledge Database</h2>
-                    <p class="text-slate-400 font-mono text-sm">// Filter logs by category to see specific data points</p>
-                </div>
-                <div class="mt-6 md:mt-0 flex gap-2 flex-wrap">
-                    <button onclick="filterProjects('all')" class="filter-btn active px-4 py-1.5 rounded text-sm font-mono border border-term-border bg-term-card hover:bg-term-border transition">All</button>
-                    <button onclick="filterProjects('Tech Innovation')" class="filter-btn px-4 py-1.5 rounded text-sm font-mono border border-term-border bg-term-card hover:bg-term-border transition">Tech Innovation</button>
-                    <button onclick="filterProjects('Policy Reform')" class="filter-btn px-4 py-1.5 rounded text-sm font-mono border border-term-border bg-term-card hover:bg-term-border transition">Policy</button>
-                    <button onclick="filterProjects('Diplomacy')" class="filter-btn px-4 py-1.5 rounded text-sm font-mono border border-term-border bg-term-card hover:bg-term-border transition">Diplomacy</button>
-                    <button onclick="filterProjects('Behavioral Strategy')" class="filter-btn px-4 py-1.5 rounded text-sm font-mono border border-term-border bg-term-card hover:bg-term-border transition text-term-purple border-term-purple">Behavioral</button>
-                </div>
-            </div>
-
-            <!-- Project Grid -->
-            <div id="project-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Javascript will inject cards here -->
-            </div>
+        <div class="achievement collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">CSR & Private Sector Development <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Co-created CSR strategies promoting community resilience and shared value between companies and local residents. Designed programs such as SME-run food stalls around industrial zones — offering sustainable livelihoods for villagers while ensuring affordable meals for factory workers. Advocated for inclusive, participatory CSR planning rooted in circular economy principles.</div>
+          </div>
         </div>
-    </section>
 
-    <!-- MEDIA & PUBLICATIONS SECTION (NEW) -->
-    <section id="media" class="py-20 bg-slate-900/30 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-3xl font-bold font-sans text-white mb-8"><i class="fas fa-book-journal-whills text-term-purple mr-3"></i>Multimedia & Archives</h2>
-            
-            <!-- Multimedia Grid -->
-            <div class="mb-16">
-                <h3 class="text-xl font-mono text-term-blue mb-4 border-b border-slate-700 pb-2">A. Multimedia Portfolio (Selected Works)</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="multimedia-container">
-                    <!-- JS Injected -->
-                </div>
-            </div>
+      </div>
+    </div>
 
-            <!-- Authored Publications -->
-            <div class="mb-16">
-                <h3 class="text-xl font-mono text-term-green mb-4 border-b border-slate-700 pb-2">B. Key Authored Publications</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="glass-panel p-6 rounded-lg border-t-4 border-term-green">
-                        <div class="text-xs font-mono text-slate-500 mb-2">2019 | ISBN: 978-623-7129-82-0</div>
-                        <h4 class="font-bold text-white text-lg mb-2">Kawasan Perdesaan Agropolitan Rasau Jaya</h4>
-                        <p class="text-sm text-slate-400 mb-4">Comprehensive analysis of agropolitan rural areas in West Kalimantan, focusing on regional economic strategies.</p>
-                        <span class="text-xs bg-slate-800 px-2 py-1 rounded text-term-green font-mono">Role: Author & Layout</span>
-                    </div>
-                    <div class="glass-panel p-6 rounded-lg border-t-4 border-term-green">
-                        <div class="text-xs font-mono text-slate-500 mb-2">2018 | ISBN: 978-623-7129-25-7</div>
-                        <h4 class="font-bold text-white text-lg mb-2">Profil BUM Desa Payang Sejahtera (Kaltim)</h4>
-                        <p class="text-sm text-slate-400 mb-4">Profile of a successful rural enterprise, highlighting best practices in community-led economic development.</p>
-                        <span class="text-xs bg-slate-800 px-2 py-1 rounded text-term-green font-mono">Role: Author & Editor</span>
-                    </div>
-                    <div class="glass-panel p-6 rounded-lg border-t-4 border-term-green">
-                        <div class="text-xs font-mono text-slate-500 mb-2">2018 | ISBN: 978-623-7129-31-8</div>
-                        <h4 class="font-bold text-white text-lg mb-2">Profil BUM Desa Cahaya Selo (Yogyakarta)</h4>
-                        <p class="text-sm text-slate-400 mb-4">Documentation of sustainable rural business models and their measurable impact on local economic resilience.</p>
-                        <span class="text-xs bg-slate-800 px-2 py-1 rounded text-term-green font-mono">Role: Author & Editor</span>
-                    </div>
-                </div>
-            </div>
+    <!-- UNESCO -->
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-period">Feb 2023 — Apr 2025</div>
+      <div class="tl-org">UNESCO Jakarta</div>
+      <div class="tl-role">Programme Support — Culture Sector (2003 & 2001 Conventions)</div>
+      <div class="tl-desc">Supported implementation of the 2003 Convention for the Safeguarding of Intangible Cultural Heritage and the 2001 Convention on the Protection of Underwater Cultural Heritage. In 2023, temporarily assumed a central coordination role during the sabbatical of the Chief of Culture and the retirement of the Director, managing key activities and ensuring continuity of both conventions.</div>
+      <div class="tl-achievements">
 
-            <!-- Full Archive Table -->
-            <div>
-                <h3 class="text-xl font-mono text-slate-400 mb-4 border-b border-slate-700 pb-2">C. Archive: Full Publication Records</h3>
-                <div class="glass-panel rounded-lg overflow-hidden border border-term-border">
-                    <div class="bg-slate-900 px-4 py-2 flex justify-between items-center border-b border-term-border">
-                        <span class="text-xs font-mono text-term-yellow">database_dump.csv</span>
-                        <div class="flex gap-2 text-xs font-mono">
-                            <span class="text-slate-500">Rows: 48</span>
-                            <span class="text-term-green">Status: Verified</span>
-                        </div>
-                    </div>
-                    <div class="max-h-96 overflow-y-auto p-0">
-                        <table class="w-full text-left border-collapse">
-                            <thead class="bg-slate-800/50 text-xs font-mono text-slate-400 sticky top-0 backdrop-blur-sm">
-                                <tr>
-                                    <th class="p-3 border-b border-slate-700">Type</th>
-                                    <th class="p-3 border-b border-slate-700">Title</th>
-                                    <th class="p-3 border-b border-slate-700">Details (ISBN/Auth)</th>
-                                    <th class="p-3 border-b border-slate-700">Year</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-sm font-mono text-slate-300 divide-y divide-slate-800" id="archive-table-body">
-                                <!-- JS Injected -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
+        <div class="achievement ach-amber collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">CLT Output 1 — Heritage Strengthening <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Supported projects under the 1972 World Heritage Convention (AJE Indonesia, Borobudur Community Empowerment Program Phase 5). Organized joint webinar with CRIHAP on ICH and World Heritage promoting sustainable development. Addressed sensitive cross-border cultural claims between Indonesia and Malaysia.</div>
+          </div>
         </div>
-    </section>
 
-    <!-- Experience Log (Timeline) -->
-    <section id="experience" class="py-20 bg-slate-900/50 border-t border-slate-800">
-        <div class="max-w-5xl mx-auto px-4">
-            <h2 class="text-3xl font-bold font-sans text-white mb-8 text-center"><i class="fas fa-history text-term-blue mr-3"></i>System Log (Chronological)</h2>
-            
-            <div class="relative border-l-2 border-slate-700 ml-4 md:ml-0 space-y-12">
-                <!-- Timeline items injected via JS -->
-                 <div id="timeline-container"></div>
-            </div>
+        <div class="achievement ach-red collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">CLT Output 2 — Combating Illicit Trafficking <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Managed end-to-end organization of the Regional Workshop on World War Shipwrecks in Southeast Asia (Dec 2023): budget planning, logistics, Ministry of Fisheries liaison, drafting articles, and documentation. Supported Philippines' feasibility research for ratifying the 2001 Underwater Cultural Heritage Convention.</div>
+          </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer id="contact" class="py-12 border-t border-term-border bg-term-bg mt-auto">
-        <div class="max-w-5xl mx-auto px-4">
-            <div class="text-center mb-10">
-                <i class="fas fa-satellite-dish text-4xl text-term-green mb-4 animate-pulse"></i>
-                <h3 class="text-2xl font-mono font-bold text-white">Establish Connection?</h3>
-                <p class="text-slate-400 mt-2">Open for collaboration on Gov-Tech, Policy Reform, and Strategic Consultancy.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-slate-800 pt-8">
-                <!-- Location -->
-                <div class="text-center md:text-left">
-                    <div class="flex items-center justify-center md:justify-start gap-2 mb-2 text-term-yellow">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span class="font-mono font-bold text-sm">BASE_LOCATION</span>
-                    </div>
-                    <p class="text-slate-300">Jakarta, Indonesia - 13650</p>
-                </div>
-
-                <!-- Contact Info -->
-                <div class="text-center">
-                    <div class="flex items-center justify-center gap-2 mb-2 text-term-blue">
-                        <i class="fas fa-address-card"></i>
-                        <span class="font-mono font-bold text-sm">COMMUNICATION_CHANNELS</span>
-                    </div>
-                    <p class="text-slate-300 hover:text-term-green transition"><a href="mailto:conniezz.cool@gmail.com">conniezz.cool@gmail.com</a></p>
-                    <p class="text-slate-300 font-mono mt-1">+62 8998 788 909</p>
-                </div>
-
-                <!-- Socials -->
-                <div class="text-center md:text-right">
-                    <div class="flex items-center justify-center md:justify-end gap-2 mb-2 text-term-purple">
-                        <i class="fas fa-network-wired"></i>
-                        <span class="font-mono font-bold text-sm">UPLINK_NODES</span>
-                    </div>
-                    <div class="flex justify-center md:justify-end gap-4 mt-2">
-                        <a href="https://linkedin.com/in/angga-conni/" target="_blank" class="bg-slate-800 p-2 rounded-full text-slate-400 hover:text-white hover:bg-blue-600 transition duration-300"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://anggaconni.github.io" target="_blank" class="bg-slate-800 p-2 rounded-full text-slate-400 hover:text-white hover:bg-gray-700 transition duration-300"><i class="fab fa-github"></i></a>
-                        <a href="https://wa.me/628998788909" target="_blank" class="bg-slate-800 p-2 rounded-full text-slate-400 hover:text-white hover:bg-green-600 transition duration-300"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-xs font-mono text-slate-600 text-center mt-12 border-t border-slate-900 pt-6">
-                <p>&copy; 2026 Crafted with Caffeine by Angga Conni Saputra.</p>
-                <p class="mt-1">System Status: <span class="text-term-green">Operational</span> | Memory Usage: Optimal</p>
-            </div>
+        <div class="achievement ach-teal collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">CLT Output 4 — ICH Capacity Building <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Moderated UNESCO Jakarta Talkshow on ICH for UN Day, addressing misinformation among youth. Supported Living Heritage Secretariat and UNESCO Beijing in documenting video footage for the Asia-Pacific Chapter's Global Network of Facilitators. Attended Jeonju Workshop (Korea) on new ICH periodic reporting framework.</div>
+          </div>
         </div>
-    </footer>
 
-    <!-- JS Logic -->
-    <script>
-        // --- DATA INJECTION ---
-        // Complete data from user's latest update + New Additions
-        const rawData = [
-            // INDEPENDENT CONSULTANT (2025-Present)
-            // -- ADDED APPS FROM PREVIOUS KNOWLEDGE --
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Horizon Scanning Matrices", strategy: "AI Synthesis", desc: "Interactive analytical templates combined with AI for policy foresight & forecasting.", link: "https://anggaconni.github.io/HorizonScanning/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Behavioral Strategy", context: "ImpactArchitect v3.3", strategy: "COM-B Model", desc: "Lightweight digital canvas integrating Theory of Change with the COM-B behavioral model and AI diagnostics.", link: "https://anggaconni.github.io/TheoryofChange_COM-B/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Policy Reform", context: "S3 AI Report Builder", strategy: "Quantitative Intelligence", desc: "Advanced quantitative platform integrating PODES logic & Google Gemini for regional economic planning.", link: "https://anggaconni.github.io/SmartSpecializationAIreport/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "StructureFlow Framework", strategy: "AI Writing", desc: "AI-assisted writing framework prioritizing structure before content for rigorous academic writing.", link: "https://anggaconni.github.io/StructureFlow/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Ecological Intersection", strategy: "Serverless GIS", desc: "Lightweight geospatial dashboard mapping global biodiversity against biosphere reserves using GAS & Sheets.", link: "https://anggaconni.github.io/citizenship-data/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Retro Web Dev Labs", strategy: "EdTech Gamification", desc: "Nostalgic interactive learning platforms for mastering HTML, CSS, and JS via live browser rendering.", link: "https://anggaconni.github.io/Learn-HTML/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "SQL & NoSQL Academy", strategy: "Client-Side Processing", desc: "Browser-based mission environment for hands-on database querying utilizing the AlaSQL engine.", link: "https://anggaconni.github.io/Learn_SQL/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Script Explorer: Aksara", strategy: "Data Viz", desc: "Interactive dashboard visualizing digital preservation status of 60+ indigenous writing systems.", link: "https://anggaconni.github.io/Script-Explorer/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "GlobalScript: Writing App", strategy: "Embodied Learning", desc: "Freehand learning app for global & indigenous scripts focusing on accessibility.", link: "https://anggaconni.github.io/learn-to-write/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "GeoJSON Fixer & OCR", strategy: "GIS Interoperability", desc: "Utility converting complex spatial data for ArcGIS. Features AI-based OCR for legacy docs.", link: "https://anggaconni.github.io/GeoJSON-Fixer/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Intl. Shadow Ops (ISO)", strategy: "Ops Automation", desc: "Strategic operations map tracking macro pipelines and micro daily logs for transparency.", link: "https://anggaconni.github.io/ShadowOps/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "WebPDF Toolkit", strategy: "Client-Side Utility", desc: "Client-side PDF management utility designed for quick document operations without server uploads.", link: "https://anggaconni.github.io/WebPDF/"},
+        <div class="achievement collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Diplomatic & Strategic Highlights <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;"><strong>US Congress Coordination:</strong> Managed end-to-end coordination for ~20-person US Congress delegation visit to Kota Tua, liaising with UNDSS, UNRC, and UNESCO Director.<br><br><strong>Rendang Mediation:</strong> De-escalated tense multinational ICH nomination debate by redirecting to media involvement — a textbook issue-reframing maneuver.<br><br><strong>Political Economy Advisory:</strong> Conducted confidential stakeholder/power-network mapping of NGOs and policy actors; identified elite alliances, influence pathways, and potential spoilers for senior management.<br><br><strong>Just Transition Pilot:</strong> Coordinated coastal community pilots in Belitung (Batu Itam) with Ministry of Marine Affairs & Flinders University — shifting livelihoods from illicit underwater looting to sustainable ICH-based crafting.</div>
+          </div>
+        </div>
 
-            // -- PREVIOUSLY EXISTING IN THE TERMINAL LOG --
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Policy Reform", context: "Ministry of Health (Kemenkes)", strategy: "Digital Transformation", desc: "Designed a draft digital health reporting and evaluation system for specialist medical education.", link: ""},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Policy Reform", context: "Ministry of Health (Kemenkes)", strategy: "Structural Reform", desc: "Introduced a two-way evaluation mechanism (subordinate ↔ supervisor), breaking traditional hierarchy.", link: ""},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Policy Reform", context: "Ministry of Health (Kemenkes)", strategy: "Crisis Response", desc: "Reform responded to 2,600+ reported bullying cases in specialist medical programs, promoting accountability.", link: ""},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Kemendikdasmen (Blue School)", strategy: "Citizen Science", desc: "Initiated 'Toward a Blue School' project, integrating ocean literacy and zero waste. Inspired by UNESCO Sandwatch.", link: ""},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Kemendikdasmen (Blue School)", strategy: "Capacity Building", desc: "Trained students to use Google Forms, Data Studio, and Wixsite to independently collect & manage mangrove data.", link: ""},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Kemendikdasmen (Blue School)", strategy: "Horizon Scanning", desc: "Conducted Horizon Scanning workshops with students/teachers to identify local priorities (waste, mangrove).", link: ""},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Kemendikdasmen (Blue School)", strategy: "Scaling Up", desc: "Expanded initiative to SMPN 25 Balikpapan (green-curriculum school above the sea) via digital storytelling.", link: ""},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Kemenko PMK", strategy: "Contextualization", desc: "Presented international foresight applications (UK/Italy) and developed a simplified version for Indonesia.", link: ""},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Policy Reform", context: "Kemenko PMK", strategy: "Institutionalization", desc: "Supported dissemination through Persatuan Profesi Kebijakan Publik to institutionalize foresight-based policymaking.", link: ""},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "EdTech / 3D Museum", strategy: "Low-Code/No-Code", desc: "Architected gamified learning tools (HTML5/JS) with Google Sheets backend to demonstrate digital skills.", link: "https://anggaconni.github.io/3D-Museum/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Foodways: Shared Heritage", strategy: "Zero-Cost Infrastructure", desc: "Developed serverless GIS platform mapping culinary history using Vanilla JS, Tailwind & Leaflet.js.", link: "https://anggaconni.github.io/Foodways/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Foodways: Shared Heritage", strategy: "Network Analysis", desc: "Implemented Node-Link Network Analysis for cross-border cultural influences (Trade, Migration).", link: "https://anggaconni.github.io/Foodways/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "E-Persuratan (Gov-Tech)", strategy: "AI-Augmented Dev", desc: "Built serverless bilingual mail management system using Google Sheets + Apps Script + Gen AI.", link: "https://anggaconni.github.io/E-Persuratan/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "UN Travel Calculator", strategy: "Process Automation", desc: "Developed open-source Web-based tool automating subsistence allowance calculations (ICSC rates).", link: "https://anggaconni.github.io/un-travel-calculator/"},
-            {org: "Independent Consultant", period: "2025-Present", role: "Consultant", category: "Tech Innovation", context: "Ocean Literacy JUMANJI", strategy: "Gamified Systems Thinking", desc: "Built a 160-tile 'Source-to-Sea' digital board game in 24h using AI. Simulates ecosystem interconnectedness via policy trade-offs.", link: "https://anggaconni.github.io/Ocean-Literacy-JUMANJI-ID-Ver/"},
+        <div class="achievement collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Gov-Tech: Heritage Commons & CBI System <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;"><strong>Heritage Commons (3D simulation):</strong> Designed and coded browser-based 3D ICH board game using Three.js. Reversed Monopoly ownership mechanics into Safeguarding mechanics — introducing Joint Nominations and Cultural Trust Points.<br><br><strong>CBI System Architecture:</strong> Engineered fully functional digital ecosystem for a SIDS member nation, replacing manual workflows with Google Stack (Forms/Sheets/Looker Studio) + Gemini AI. Applied "Cognitive Ownership Technique" to overcome institutional resistance and secure leadership endorsement.</div>
+          </div>
+        </div>
 
-            // UNESCO (Feb 2023 - Apr 2025)
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Tech Innovation", context: "Heritage Commons", strategy: "Philosophical Re-engineering", desc: "Reversed Monopoly mechanics (ownership) into Safeguarding mechanics (collaboration/Trust Points).", link: "https://anggaconni.github.io/ICH-Games/"},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Tech Innovation", context: "Heritage Commons", strategy: "Rapid Prototyping", desc: "Coded fully functional MVP in a single weekend using AI assistance (Three.js).", link: "https://anggaconni.github.io/ICH-Games/"},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Behavioral Strategy", context: "Inventory System (SIDS)", strategy: "Behavioral Change", desc: "Applied 'Cognitive Ownership Technique' (Consistency Principle) to overcome institutional resistance.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Tech Innovation", context: "Inventory System (SIDS)", strategy: "Scalable Architecture", desc: "Developed 'Single Source of Truth' structure with automated logic to prevent database bloat.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "Brunei Relations", strategy: "Informal Diplomacy", desc: "Shared meals and casual activities to build rapport with Brunei DG Culture, opening blocked comms channels.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "Rendang Debate", strategy: "Issue Reframing", desc: "Mediated tense debate on 'Rendang Minang' by redirecting conversation to Media Involvement (de-escalation).", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "Jeonju Workshop", strategy: "Relationship-Based / Liking Principle", desc: "Strengthened cooperation with international delegates through shared cultural stories and humor.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "Funding Negotiation", strategy: "Loss-Aversion Framing", desc: "Strengthened urgency among decision-makers by framing funding risks as potential loss of partner trust.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "HQ Relations", strategy: "Ben Franklin Effect", desc: "Built rapport with senior consultant by asking for small cultural clarification creating positive investment.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "Policy Uptake", strategy: "Institutional Authority", desc: "Framed recommendations under UNESCO 2003 Operational Directives rather than personal notes.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "Budgeting", strategy: "Budget Anchoring", desc: "Influenced budget deliberations by proposing a reasonable starting figure early to establish constructive anchor.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "Partner Accountability", strategy: "Tit-for-Tat Strategy", desc: "Maintained balanced cooperation by proportionally adjusting support to partners who delayed deliverables.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "Conflict Resolution", strategy: "Institutional Trust Repair", desc: "Rebuilt working trust after miscommunication by clarifying intentions and consistent follow-up.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "ASEAN Relations", strategy: "Shared Identity / Mirror Neurons", desc: "Used inclusive language ('our region') and matched conversational pace with delegates for subconscious rapport.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "Govt Relations", strategy: "Cultural Intelligence", desc: "Interpreted delayed responses as hierarchical deference; acknowledged senior officials before juniors.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "Negotiation", strategy: "Door-in-the-Face", desc: "Secured online training agreement by first proposing resource-intensive offline event.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "High-Level Meetings", strategy: "Strategic Silence", desc: "Paused after presenting position, allowing ministry side to fill silence with their internal obstacles.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "Reputation", strategy: "Long-Term Capital", desc: "Secured rapid confirmation for ASEAN events due to track record of reliability.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Policy Reform", context: "CLT Output 1", strategy: "Capacity Building", desc: "Organized joint webinar with CRIHAP on ICH and World Heritage promoting sustainable development.", link: "https://en.crihap.cn/a/202311/28/WS656591b7a310decc1a222798.html"},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Policy Reform", context: "CLT Output 2", strategy: "Event Management", desc: "Managed Regional Workshop on World War Shipwrecks: budget, logistics, Ministry liaison.", link: "https://www.unesco.org/en/articles/world-war-shipwrecks-southeast-asia-threats-marine-pollution-and-looting"},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Policy Reform", context: "CLT Output 4", strategy: "Public Speaking", desc: "Moderator for UNESCO Jakarta Talkshow on ICH for UN Day; addressing misinformation among youth.", link: "https://www.instagram.com/reel/CzF6_9oLOiv/"},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Behavioral Strategy", context: "Sustainability Advocacy", strategy: "Green Nudge", desc: "Advocated for mechanical keyboards & modular PCs to reduce e-waste (adopted by Admin Unit).", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Diplomacy", context: "US Congress Visit", strategy: "Diplomacy", desc: "Managed end-to-end coordination for US Congress delegation (Kota Tua); liaised with UNDSS and UNRC.", link: ""},
-            {org: "UNESCO", period: "Feb 2023 - Apr 2025", role: "Programme Support", category: "Policy Reform", context: "Political Economy", strategy: "Network Mapping", desc: "Conducted power-network mapping of NGOs/policy actors; identified elite alliances and potential spoilers.", link: ""},
+      </div>
+    </div>
 
-            // UNDP (Mar 2022 - Feb 2023)
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Tech Innovation", context: "SMILE App", strategy: "IoT Solutions", desc: "Proposed IoT technology in health facilities lacking infrastructure for real-time vaccine monitoring.", link: ""},
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Behavioral Strategy", context: "SMILE App", strategy: "Social Proof", desc: "Accelerated adoption by engaging respected local officer whose participation sparked peer adoption.", link: ""},
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Behavioral Strategy", context: "SMILE App", strategy: "COM-B Application", desc: "Addressed Capability, Opportunity, and Motivation to align health worker behavior in Papua.", link: ""},
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Behavioral Strategy", context: "SMILE App", strategy: "Strategic Framing", desc: "Reframed system not as admin burden but as tool to showcase local achievements to central govt.", link: ""},
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Behavioral Strategy", context: "SMILE App", strategy: "Cognitive Alignment", desc: "Boosted compliance by appealing to health workers' identity as 'protectors of Papua children'.", link: ""},
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Behavioral Strategy", context: "SMILE App", strategy: "Intrinsic Motivation", desc: "Gave district officers ownership by inviting input on features and positioning them as peer trainers.", link: ""},
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Behavioral Strategy", context: "SMILE App", strategy: "Foot-in-the-Door", desc: "Secured buy-in by first requesting a small low-risk trial upload.", link: ""},
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Behavioral Strategy", context: "SMILE App", strategy: "Nudge Design", desc: "Designed pre-filled templates and visible 'Save & Sync' buttons to make correct behavior easiest.", link: ""},
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Behavioral Strategy", context: "SMILE App", strategy: "Pygmalion Effect", desc: "Publicly acknowledged hesitant officer as 'digital pioneer' to inspire confidence.", link: ""},
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Behavioral Strategy", context: "SMILE App", strategy: "Scarcity Messaging", desc: "Framed selection for recognition as limited ('only one best worker') to increase urgency.", link: ""},
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Behavioral Strategy", context: "SMILE App", strategy: "Dual-Process Comm", desc: "Started pitch with emotional narrative (children) before data to engage intuitive and analytical decision-making.", link: ""},
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Policy Reform", context: "Dosing Error", strategy: "Data Insight", desc: "Identified critical dosing error (BCG vaccine) via data analysis preventing double-dosing in infants.", link: ""},
-            {org: "UNDP", period: "Mar 2022 - Feb 2023", role: "Health & Digital Analyst", category: "Tech Innovation", context: "Cold Chain IoT", strategy: "1st Gen AI", desc: "Integrated IoT sensors with rule-based AI to monitor vaccine temps and trigger alerts.", link: ""},
+    <!-- UNDP -->
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-period">Mar 2022 — Feb 2023</div>
+      <div class="tl-org">UNDP Papua</div>
+      <div class="tl-role">Health & Digital Systems Analyst — SMILE Digital Health Transformation</div>
+      <div class="tl-desc">Drove digital transformation of vaccine logistics monitoring in remote Papua, Indonesia. Applied behavioral science, IoT, and strategic communication to achieve adoption in one of the world's most challenging implementation environments.</div>
+      <div class="tl-achievements">
 
-            // MINISTRY OF VILLAGE (Jan 2016 - Jan 2020)
-            {org: "Ministry of Village", period: "Jan 2016 - Jan 2020", role: "PIC Data Command Room", category: "Tech Innovation", context: "Innovation", strategy: "3rd Gen AI", desc: "Initiated Python-based ML model to detect Type II errors (missed inequalities) in village data.", link: ""},
-            {org: "Ministry of Village", period: "Jan 2016 - Jan 2020", role: "PIC Data Command Room", category: "Policy Reform", context: "Data Insight", strategy: "Inequality Analysis", desc: "Identified that improved road access in Jambi inadvertently increased Gini ratio (bypassing local stalls).", link: ""},
-            {org: "Ministry of Village", period: "Jan 2016 - Jan 2020", role: "PIC Data Command Room", category: "Policy Reform", context: "Strategic Planning", strategy: "Evidence-Based", desc: "Facilitated strategic plans for tourism villages; authored book on Pujon Kidul success.", link: ""},
-            {org: "Ministry of Village", period: "Jan 2016 - Jan 2020", role: "PIC Data Command Room", category: "Policy Reform", context: "Crisis Comms", strategy: "Decentralization", desc: "Clarified flexibility of Dana Desa usage (not just infrastructure) during impromptu FGDs.", link: ""},
-            {org: "Ministry of Village", period: "Jan 2016 - Jan 2020", role: "PIC Data Command Room", category: "Policy Reform", context: "Conflict Resolution", strategy: "FGD", desc: "Resolved Jambi Province policy conflict (infrastructure vs economic focus) via Focus Group Discussion.", link: ""},
+        <div class="achievement ach-amber collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Key Impact Metrics <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Increased vaccine utilization reporting rates from <strong>5% → 60%</strong> in remote districts. Convinced UNICEF and WHO to co-fund <strong>8 SMILE capacity-building workshops</strong> as part of UN Reform "Delivering as One." Identified critical BCG dosing error (0.1ml vs 0.05ml for new 20-dose vials) — escalated to UNICEF, WHO, and MoH, preventing double-dosing in infants across Papua.</div>
+          </div>
+        </div>
 
-            // FREELANCE (Oct 2009 - Dec 2015)
-            {org: "Freelance", period: "Oct 2009 - Dec 2015", role: "Tech Consultant", category: "Tech Innovation", context: "Dashboards", strategy: "Web Dev", desc: "Oversaw creation of custom M&E dashboards using Highcharts/Chart.js and HTML/CSS.", link: ""},
-            {org: "Freelance", period: "Oct 2009 - Dec 2015", role: "Tech Consultant", category: "Tech Innovation", context: "IoT Solutions", strategy: "Brokerage", desc: "Brokered IoT technology solutions connecting suppliers with donors.", link: ""}
-        ];
+        <div class="achievement ach-teal collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">IoT & Cold Chain Innovation <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Proposed and integrated IoT sensors with rule-based AI alert systems to ensure vaccines stayed within safe cold-chain conditions. System automatically measured and transmitted temperature/humidity from health facilities and triggered alerts for corrective action — representing first-generation applied AI in the project.</div>
+          </div>
+        </div>
 
-        // NEW: Multimedia & Publication Data
-        const multimediaData = [
-            {role: "Videographer & Editor", title: "UNESCO Global Network of Facilitators", desc: "Produced video footage/interviews for Living Heritage Secretariat (Beijing). Recognized for broadcast standards.", link: "https://www.unesco.org/en/articles/asia-and-pacific-chapter-2003-conventions-global-network-facilitators-strengthened-18-new-members"},
-            {role: "Event Organizer & Comms", title: "World War Shipwrecks Workshop", desc: "Managed organization, media relations, and drafted press releases for this regional meeting.", link: "https://www.unesco.org/en/articles/world-war-shipwrecks-southeast-asia-threats-marine-pollution-and-looting"},
-            {role: "Webinar Organizer", title: "CRIHAP Capacity Building", desc: "Organized joint webinar (ID-MY) addressing sensitive cross-border cultural claims.", link: "https://en.crihap.cn/a/202311/28/WS656591b7a310decc1a222798.html"},
-            {role: "Web Designer", title: "UNDP SMILE Repository", desc: "Designed comprehensive repository website documenting SMILE digital health transformation.", link: "https://conniezzcool.wixsite.com/undp-meeting-smile-r"},
-            {role: "Moderator", title: "UNESCO Jakarta Talkshow", desc: "Moderated discussions on cultural diversity and misinformation among youth.", link: "https://www.instagram.com/reel/CzF6_9oLOiv/"}
-        ];
+        <div class="achievement collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Behavioral Change Campaign <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Applied COM-B model to address health worker adoption in remote Papua. Used Social Proof (respected local officer as early adopter), Strategic Framing (system as showcase tool, not admin burden), Pygmalion Effect (labeling hesitant officers as "digital pioneers"), Foot-in-the-Door (low-risk trial uploads first), and Dual-Process Communication (emotional narrative before data). Produced training videos, blog sites, and a comprehensive UNDP repository website.</div>
+          </div>
+        </div>
 
-        const archiveData = [
-            // Writer
-            {type: "Writer", title: "Bumdesa 2017", detail: "Internal Org", year: "2017"},
-            {type: "Writer", title: "Dana Desa 2017", detail: "Internal Org", year: "2017"},
-            {type: "Writer", title: "Survey Perkembangan Desa 2017", detail: "Internal Org", year: "2017"},
-            {type: "Writer", title: "Buku Kunjungan Kerja Prov. Aceh", detail: "Internal Org", year: "2017"},
-            {type: "Writer", title: "Buku Kunjungan Kerja Prov. Sumut", detail: "Internal Org", year: "2017"},
-            {type: "Writer", title: "Buku Kunjungan Kerja Prov. Sumbar", detail: "Internal Org", year: "2017"},
-            {type: "Writer", title: "Buku Kunjungan Kerja Prov. Sumsel", detail: "Internal Org", year: "2017"},
-            {type: "Writer", title: "Buku Kunjungan Kerja Prov. Jabar", detail: "Internal Org", year: "2017"},
-            {type: "Writer", title: "Buku Kunjungan Kerja Prov. Jatim", detail: "Internal Org", year: "2017"},
-            {type: "Writer", title: "Buku Kunjungan Kerja Prov. Bali", detail: "Internal Org", year: "2017"},
-            {type: "Writer", title: "Buku Kunjungan Kerja Prov. DIY", detail: "Internal Org", year: "2017"},
-            // Copy Editor (Selected 10 for display brevity, loop in logic if needed but user pasted many)
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Aceh", detail: "ISBN: 978-623-7129-38-7", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Lampung", detail: "ISBN: 978-623-7129-39-4", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Sumsel", detail: "ISBN: 978-623-7129-40-0", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Kepri", detail: "ISBN: 978-623-7129-41-7", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Sumut", detail: "ISBN: 978-623-7129-42-4", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Sumbar", detail: "ISBN: 978-623-7129-43-1", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Jambi", detail: "ISBN: 978-623-7129-44-8", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Bengkulu", detail: "ISBN: 978-623-7129-45-5", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Babel", detail: "ISBN: 978-623-7129-46-2", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Banten", detail: "ISBN: 978-623-7129-47-9", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. DIY", detail: "ISBN: 978-623-7129-48-6", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Jabar", detail: "ISBN: 978-623-7129-49-3", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Jateng", detail: "ISBN: 978-623-7129-50-9", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Jatim", detail: "ISBN: 978-623-7129-51-6", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Bali", detail: "ISBN: 978-623-7129-52-3", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. NTB", detail: "ISBN: 978-623-7129-53-0", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. NTT", detail: "ISBN: 978-623-7129-54-7", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Kalbar", detail: "ISBN: 978-623-7129-55-4", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Kalteng", detail: "ISBN: 978-623-7129-56-1", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Kaltara", detail: "ISBN: 978-623-7129-57-8", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Sulut", detail: "ISBN: 978-623-7129-58-5", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Sulbar", detail: "ISBN: 978-623-7129-59-2", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Sulteng", detail: "ISBN: 978-623-7129-60-8", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Sulsel", detail: "ISBN: 978-623-7129-61-5", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Kaltim", detail: "ISBN: 978-623-7129-62-2", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Kalsel", detail: "ISBN: 978-623-7129-63-9", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Sultra", detail: "ISBN: 978-623-7129-64-6", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Gorontalo", detail: "ISBN: 978-623-7129-65-3", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Maluku", detail: "ISBN: 978-623-7129-66-0", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Malut", detail: "ISBN: 978-623-7129-67-7", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Riau", detail: "ISBN: 978-623-7129-71-4", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Papua Barat", detail: "ISBN: 978-623-7129-72-1", year: "2018"},
-            {type: "Editor", title: "Manfaat Dana Desa Prov. Papua", detail: "ISBN: 978-623-7129-70-7", year: "2018"},
-            {type: "Editor", title: "Dinamika Pembangunan Desa (7 Pulau)", detail: "ISBN: 978-623-7129-69-1", year: "2018"},
-        ];
+        <div class="achievement collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Conflict Mediation <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Mediated between Malaria and Vaccine units over SMILE's integration of drug recording functions, resolving conflict by advocating a collaborative merger rather than replacement — achieving consensus and improved program cooperation.</div>
+          </div>
+        </div>
 
-        // --- RENDER LOGIC ---
+      </div>
+    </div>
 
-        function renderProjects(filter) {
-            const container = document.getElementById('project-container');
-            container.innerHTML = '';
+    <!-- MINISTRY OF VILLAGE -->
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-period">Jan 2016 — Jan 2020</div>
+      <div class="tl-org">Ministry of Village (Kemendesa PDTT)</div>
+      <div class="tl-role">PIC — Data Command Room (BALILATFO) · Technical Support Staff, Village Development Division</div>
+      <div class="tl-desc">Served as the central node of the Ministry's Data Command Room (Ruang Kendali Data), responsible for nationwide coordination of rural development data and translating grassroots innovations into evidence-based policy insights for Ministry leadership.</div>
+      <div class="tl-achievements">
 
-            const filtered = filter === 'all' 
-                ? rawData
-                : rawData.filter(d => d.category.includes(filter) || d.strategy.includes(filter) || (filter === 'Tech Innovation' && d.category.includes('Foresight')));
+        <div class="achievement ach-amber collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Data & Policy Achievements <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Coordinated national data collection across provinces and districts; maintained dashboard for Secretary and Head of Agency. Designed weekly Policy Brief mechanism adopted as evidence-based discussion standard at BALILATFO. Formulated national data collection guidelines (Decree No. 336/2017). Identified that improved road access in Jambi inadvertently increased the Gini ratio — road speed caused travelers to bypass village food stalls for urban centers.</div>
+          </div>
+        </div>
 
-            filtered.forEach(item => {
-                const hasLink = item.link && item.link.length > 5;
-                const card = document.createElement('div');
-                card.className = "glass-panel p-6 rounded-lg group hover:border-term-green transition-colors duration-300 flex flex-col h-full";
-                
-                // Card Header
-                let iconClass = 'fa-code';
-                if(item.category.includes('Policy')) iconClass = 'fa-balance-scale';
-                if(item.category.includes('Diplomacy')) iconClass = 'fa-handshake';
-                if(item.category.includes('Health')) iconClass = 'fa-heartbeat';
-                if(item.category.includes('Behavioral')) iconClass = 'fa-brain';
-                if(item.category.includes('Foresight')) iconClass = 'fa-eye';
+        <div class="achievement ach-teal collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Publications & Knowledge Products <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Authored comprehensive book on Pujon Kidul village sustainable tourism. Authored 33 Pocket Books for Provincial Work Visits. Served as book editor for BUMDesa publications across all 33 provinces. Collaborated with Gadjah Mada, Bengkulu, and Mataram Universities to prepare 60 Village Development Innovation Books. Negotiated with 100+ stakeholders to resolve administrative errors and finalize village fund benefits report.</div>
+          </div>
+        </div>
 
-                // Strategy Color Logic
-                let strategyColor = 'code-string'; // green
-                if(item.category.includes('Behavioral') || item.category.includes('Diplomacy')) strategyColor = 'text-term-purple';
+        <div class="achievement collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Tech & Innovation Oversight <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Monitored and evaluated 10 internal + 5 external E-Government applications. Advised Secretary General on digital solutions including village monitoring apps and IoT devices. Initiated Python-based ML model to detect Type II errors (missed inequalities) in village data — a 3rd-generation AI prototype for social policy data validation (limited by funding). Documented local innovations: Pascal's hydraulic pumps, solar energy systems, AI/IoT micro-hydro grids, zero-waste agriculture models.</div>
+          </div>
+        </div>
 
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="p-2 bg-slate-800 rounded text-term-blue">
-                            <i class="fas ${iconClass}"></i>
-                        </div>
-                        <span class="text-xs font-mono text-slate-500 py-1 px-2 border border-slate-700 rounded">${item.period}</span>
-                    </div>
-                    
-                    <h3 class="text-lg font-bold text-white mb-1 group-hover:text-term-green transition">${item.context}</h3>
-                    <div class="text-xs font-mono text-term-yellow mb-3">${item.role} @ ${item.org}</div>
-                    
-                    <div class="bg-slate-900/80 p-3 rounded mb-4 font-mono text-xs text-slate-300 border border-slate-800 flex-grow">
-                        <span class="code-keyword">const</span> strategy = <span class="${strategyColor}">"${item.strategy}"</span>;
-                        <br>
-                        <span class="code-comment">// ${item.desc}</span>
-                    </div>
+        <div class="achievement collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Stakeholder Engagement & Conflict Resolution <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Resolved complex policy conflict in Jambi Province (central vs. local regulations) via FGD. Conducted impromptu FGD workshops at village level to clarify Dana Desa usage flexibility under Indonesia's decentralization law. Coordinated research with 33 public universities across Indonesia on village fund impacts. Managed 11 events including meetings, book launches, and application rollouts.</div>
+          </div>
+        </div>
 
-                    <div class="mt-auto pt-4 border-t border-slate-800 flex gap-2">
-                        ${hasLink ? `<a href="${item.link}" target="_blank" class="text-xs font-bold text-term-green hover:underline flex items-center gap-1"><i class="fas fa-external-link-alt"></i> DEMO / REPO</a>` : '<span class="text-xs text-slate-600 cursor-not-allowed">NO PUBLIC REPO</span>'}
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
+      </div>
+    </div>
 
-        function renderTimeline() {
-            const container = document.getElementById('timeline-container');
-            // Group by Organization to make timeline cleaner
-            const grouped = {};
-            rawData.forEach(item => {
-                const key = `${item.org}-${item.period}`;
-                if(!grouped[key]) {
-                    grouped[key] = {
-                        org: item.org,
-                        period: item.period,
-                        roles: []
-                    };
-                }
-                grouped[key].roles.push(item);
-            });
+    <!-- FREELANCE -->
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-period">Oct 2009 — Dec 2015</div>
+      <div class="tl-org">Freelance Tech Consultant</div>
+      <div class="tl-role">Project Intermediary · Requirements Analyst · Dashboard Developer</div>
+      <div class="tl-desc">Bridged government/NGO clients with software developers, applying Agile methodologies, wireframing, and consultative support from scoping through deployment. Developed CorelDRAW mockups and oversaw M&E dashboard creation using Highcharts and Chart.js.</div>
+      <div class="tl-achievements">
+        <div class="achievement collapsible" onclick="toggleCollapse(this)">
+          <div class="achievement-tag">Key Activities <span class="caret">▶</span></div>
+          <div class="collapse-body">
+            <div style="padding-top:8px;font-size:.88rem;">Managed multiple mobile and web application projects under strict NDA with government agencies and ministry partners. Brokered IoT technology solutions connecting diverse suppliers with donors and client companies. Led iterative review sessions incorporating user feedback. Oversaw creation of custom M&E dashboards with HTML/CSS/JS and Highcharts/Chart.js integrated with CSV/Excel backends.</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            Object.values(grouped).forEach((group, index) => {
-                const node = document.createElement('div');
-                node.className = "relative pl-8 md:pl-12";
-                
-                // Timeline dot
-                const dotColor = index === 0 ? 'bg-term-green shadow-[0_0_10px_rgba(16,185,129,0.5)]' : 'bg-slate-600';
-                
-                node.innerHTML = `
-                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full ${dotColor} border-4 border-slate-900"></div>
-                    
-                    <div class="mb-8">
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4 mb-2">
-                            <h3 class="text-xl font-bold text-white">${group.org}</h3>
-                            <span class="text-sm font-mono text-term-blue bg-blue-900/20 px-2 py-0.5 rounded">${group.period}</span>
-                        </div>
-                        
-                        <div class="space-y-3 mt-4">
-                            ${group.roles.slice(0, 5).map(role => `
-                                <div class="glass-panel p-3 rounded border-l-2 border-slate-600 hover:border-term-yellow transition">
-                                    <div class="flex justify-between items-baseline">
-                                        <h4 class="text-sm font-bold text-slate-200">${role.context === '-' ? role.role : role.context}</h4>
-                                        <span class="text-[10px] font-mono text-slate-500 uppercase tracking-wider">${role.category}</span>
-                                    </div>
-                                    <p class="text-xs text-slate-400 mt-1">${role.desc}</p>
-                                    ${role.strategy !== '-' ? `<div class="mt-2 text-[10px] text-term-purple font-mono"><i class="fas fa-microchip mr-1"></i>Logic: ${role.strategy}</div>` : ''}
-                                </div>
-                            `).join('')}
-                             ${group.roles.length > 5 ? `<div class="text-xs text-slate-500 italic px-2 pt-2 border-t border-slate-800">+ ${group.roles.length - 5} more logs in database...</div>` : ''}
-                        </div>
-                    </div>
-                `;
-                container.appendChild(node);
-            });
-        }
+  </div>
+</section>
 
-        function renderMultimedia() {
-            const container = document.getElementById('multimedia-container');
-            multimediaData.forEach(item => {
-                const card = document.createElement('div');
-                card.className = "glass-panel p-5 rounded-lg border-b-2 border-term-blue hover:bg-slate-800/50 transition duration-300";
-                card.innerHTML = `
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="text-xs font-mono bg-term-blue text-slate-900 px-2 py-0.5 rounded font-bold uppercase">${item.role}</span>
-                    </div>
-                    <h4 class="font-bold text-white mb-2 leading-tight">${item.title}</h4>
-                    <p class="text-xs text-slate-400 mb-4 line-clamp-3">${item.desc}</p>
-                    <a href="${item.link}" target="_blank" class="text-xs text-term-green hover:underline flex items-center gap-1 font-mono"><i class="fas fa-link"></i> VIEW SOURCE</a>
-                `;
-                container.appendChild(card);
-            });
-        }
+<hr class="section-divider">
 
-        function renderArchive() {
-            const tbody = document.getElementById('archive-table-body');
-            archiveData.forEach(row => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-800/50 transition";
-                const typeClass = row.type === 'Author' ? 'text-term-green' : (row.type === 'Writer' ? 'text-term-yellow' : 'text-slate-500');
-                
-                tr.innerHTML = `
-                    <td class="p-3 border-b border-slate-800 ${typeClass}">${row.type}</td>
-                    <td class="p-3 border-b border-slate-800 text-white font-semibold">${row.title}</td>
-                    <td class="p-3 border-b border-slate-800 text-slate-400 text-xs">${row.detail}</td>
-                    <td class="p-3 border-b border-slate-800 text-slate-400">${row.year}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
+<!-- ─── PORTFOLIO ─── -->
+<section id="portfolio" class="section fade-in">
+  <div class="section-head">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Technical <em>Portfolio</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <p style="font-size:.9rem;color:var(--muted);margin-bottom:20px;font-family:var(--mono);">// Zero-cost, serverless ecosystems built on HTML5 + Vanilla JS + Google Stack + GitHub Pages + AI-augmented development</p>
 
-        function filterProjects(category) {
-            // Button styles toggle
-            const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => {
-                const btnText = btn.innerText;
-                const isMatch = category === 'all' ? btnText === 'All' : btnText.includes(category);
-                
-                if(isMatch) {
-                    btn.classList.add('bg-term-green', 'text-slate-900', 'border-term-green');
-                    btn.classList.remove('bg-term-card', 'text-slate-200', 'text-term-purple', 'border-term-purple');
-                } else {
-                    btn.classList.remove('bg-term-green', 'text-slate-900', 'border-term-green');
-                    btn.classList.add('bg-term-card', 'text-slate-200');
-                    if(btnText.includes('Behavioral')) {
-                         btn.classList.add('text-term-purple', 'border-term-purple');
-                    }
-                }
-            });
-            renderProjects(category);
-        }
+  <div class="filter-bar">
+    <button class="filter-chip active" onclick="filterCards('all',this)">All Systems</button>
+    <button class="filter-chip" onclick="filterCards('gov',this)">Gov-Tech</button>
+    <button class="filter-chip" onclick="filterCards('policy',this)">Policy AI</button>
+    <button class="filter-chip" onclick="filterCards('gis',this)">GIS · Data</button>
+    <button class="filter-chip" onclick="filterCards('edtech',this)">EdTech · Heritage</button>
+  </div>
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            renderProjects('all');
-            renderTimeline();
-            renderMultimedia();
-            renderArchive();
-        });
+  <div class="project-grid" id="projectGrid">
 
-    </script>
+    <!-- GOV-TECH -->
+    <div class="project-card" data-cat="gov">
+      <div class="pc-cat tech">Gov-Tech · Serverless</div>
+      <div class="pc-title">E-Persuratan (E-Correspondence System)</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Bilingual (ID/EN) mail management ecosystem modernizing legacy government workflows. Unified data flow into a scalable CRUD system with real-time analytics. Eliminated fragmented "Stone Age" administration.</div>
+      <div class="pc-strategy">Strategy: <span>Google Apps Script + Sheets + Gen AI</span></div>
+      <a href="https://anggaconni.github.io/E-Persuratan/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Live System</a>
+    </div>
+
+    <div class="project-card" data-cat="gov">
+      <div class="pc-cat tech">Gov-Tech · Operations</div>
+      <div class="pc-title">International Shadow Ops (ISO)</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Strategic operations tracker combining macro pipeline visibility with micro-level activity logs (username, timestamp). AI-generated summaries via Apps Script for automated evidence-based reporting.</div>
+      <div class="pc-strategy">Strategy: <span>Apps Script + AI Summaries</span></div>
+      <a href="https://anggaconni.github.io/ShadowOps/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+    </div>
+
+    <div class="project-card" data-cat="gov">
+      <div class="pc-cat tech">Gov-Tech · Automation</div>
+      <div class="pc-title">UN Travel & DSA Calculator</div>
+      <div class="pc-org">UNESCO · 2023–2025</div>
+      <div class="pc-desc">Open-source automation tool for UN subsistence allowance calculations. Automates complex ICSC rate logic and deductions to ensure audit compliance and reduce administrative processing time.</div>
+      <div class="pc-strategy">Strategy: <span>Process Automation · Client-Side</span></div>
+      <a href="https://anggaconni.github.io/un-travel-calculator/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Live Tool</a>
+    </div>
+
+    <div class="project-card" data-cat="gov">
+      <div class="pc-cat tech">Gov-Tech · Privacy</div>
+      <div class="pc-title">WebPDF Toolkit</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Client-side PDF management utility with zero-server uploads — ensuring secure handling of sensitive government documents entirely within the browser. No data leaves the device.</div>
+      <div class="pc-strategy">Strategy: <span>Zero-Backend · Client-Side Processing</span></div>
+      <a href="https://anggaconni.github.io/WebPDF/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Live App</a>
+    </div>
+
+    <!-- POLICY AI -->
+    <div class="project-card" data-cat="policy">
+      <div class="pc-cat policy">Policy AI · Foresight</div>
+      <div class="pc-title">Horizon Scanning Matrices</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Interactive analytical templates combined with AI-powered synthesis for policy foresight & forecasting. Built-in masterclass analyzing probability, impact, uncertainty, urgency, and time horizon. Gemini API auto-synthesizes clusters.</div>
+      <div class="pc-strategy">Strategy: <span>Google Gemini API + Foresight Methodology</span></div>
+      <a href="https://anggaconni.github.io/HorizonScanning/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Live App</a>
+    </div>
+
+    <div class="project-card" data-cat="policy">
+      <div class="pc-cat policy">Policy AI · Behavioral</div>
+      <div class="pc-title">ImpactArchitect v3.3</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Lightweight digital canvas closing the "last mile" gap in social programs. Integrates Theory of Change (ToC) with COM-B behavioral model. AI acts as strategic sparring partner to stress-test logic and auto-diagnose stalled results.</div>
+      <div class="pc-strategy">Strategy: <span>COM-B Model + ToC + Gemini AI</span></div>
+      <a href="https://anggaconni.github.io/TheoryofChange_COM-B/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Live App</a>
+    </div>
+
+    <div class="project-card" data-cat="policy">
+      <div class="pc-cat policy">Policy AI · Economics</div>
+      <div class="pc-title">S3 AI Report Builder</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Advanced quantitative intelligence platform transforming regional economic planning. Integrates European Smart Specialization Strategy (S3) with Indonesia's PODES logic. Automates professional Word/PDF reports via Gemini AI.</div>
+      <div class="pc-strategy">Strategy: <span>Quantitative Intelligence + PODES Logic</span></div>
+      <a href="https://anggaconni.github.io/SmartSpecializationAIreport/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Live App</a>
+    </div>
+
+    <div class="project-card" data-cat="policy">
+      <div class="pc-cat policy">Policy AI · Writing</div>
+      <div class="pc-title">StructureFlow Framework</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">AI-assisted writing framework prioritizing structure before content for rigorous academic and policy writing. Integrates section-based guidance, auto-drafting, and AI feedback to help users think clearly and argue coherently.</div>
+      <div class="pc-strategy">Strategy: <span>AI Writing + Structural Pedagogy</span></div>
+      <a href="https://anggaconni.github.io/StructureFlow/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Live App</a>
+    </div>
+
+    <!-- GIS / DATA -->
+    <div class="project-card" data-cat="gis">
+      <div class="pc-cat teal">GIS · Cultural Data Science</div>
+      <div class="pc-title">Foodways: Shared Heritage</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Serverless GIS platform mapping culinary history networks. Implements Node-Link Network Analysis to visualize trade routes and migration flows. Single Page Application using Leaflet.js with custom Apps Script API.</div>
+      <div class="pc-strategy">Strategy: <span>Network Analysis · Zero-Cost GIS</span></div>
+      <a href="https://anggaconni.github.io/Foodways/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Desktop · <a href="https://anggaconni.github.io/Foodways-Mobile/" target="_blank" class="pc-link">Mobile</a></a>
+    </div>
+
+    <div class="project-card" data-cat="gis">
+      <div class="pc-cat teal">GIS · Biodiversity</div>
+      <div class="pc-title">Ecological Intersection (Citizenship Data)</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Integrated GIS dashboard mapping global biodiversity against biosphere reserves. Solved complex ACID-aware synchronization between point-based species data and polygon-based biosphere zones in a serverless environment.</div>
+      <div class="pc-strategy">Strategy: <span>Leaflet.js + Apps Script + Sheets</span></div>
+      <a href="https://anggaconni.github.io/citizenship-data/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Live Platform</a>
+    </div>
+
+    <div class="project-card" data-cat="gis">
+      <div class="pc-cat teal">GIS · Interoperability</div>
+      <div class="pc-title">GeoJSON Fixer & OCR</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Spatial data conversion engine for seamless ArcGIS integration. Automates GeometryCollection → FeatureCollection conversion. Features AI-based OCR to recover geospatial data from screenshots and legacy documentation.</div>
+      <div class="pc-strategy">Strategy: <span>Client-Side GIS · AI OCR</span></div>
+      <a href="https://anggaconni.github.io/GeoJSON-Fixer/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Live Tool</a>
+    </div>
+
+    <div class="project-card" data-cat="gis">
+      <div class="pc-cat teal">Data Viz · Indigenous Heritage</div>
+      <div class="pc-title">Script Explorer: Aksara</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Interactive advocacy dashboard visualizing the digital preservation status of 60+ indigenous writing systems worldwide, including Unicode/font support analysis with offline fallback capabilities.</div>
+      <div class="pc-strategy">Strategy: <span>Data Visualization · Digital Preservation</span></div>
+      <a href="https://anggaconni.github.io/Script-Explorer/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Live Dashboard</a>
+    </div>
+
+    <!-- EDTECH -->
+    <div class="project-card" data-cat="edtech">
+      <div class="pc-cat tech">EdTech · 3D WebGL</div>
+      <div class="pc-title">Heritage Commons (ICH Simulation)</div>
+      <div class="pc-org">UNESCO · 2023–2025</div>
+      <div class="pc-desc">Browser-based 3D board game revolutionizing ICH capacity building. Reversed Monopoly ownership mechanics into Safeguarding mechanics — introducing Joint Nominations and Cultural Trust Points. Built fully functional MVP in a single weekend using Three.js + AI.</div>
+      <div class="pc-strategy">Strategy: <span>Philosophical Re-engineering · Rapid Prototyping</span></div>
+      <a href="https://anggaconni.github.io/ICH-Games/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Play Game</a>
+    </div>
+
+    <div class="project-card" data-cat="edtech">
+      <div class="pc-cat tech">EdTech · Gamification</div>
+      <div class="pc-title">Ocean Literacy JUMANJI</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">160-tile "Source-to-Sea" digital board game built in 24 hours using AI. Simulates ecosystem interconnectedness via policy trade-offs, teaching climate resilience and ocean literacy through gamified systems thinking.</div>
+      <div class="pc-strategy">Strategy: <span>Systems Thinking · Gamification</span></div>
+      <a href="https://anggaconni.github.io/Ocean-Literacy-JUMANJI-ID-Ver/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Play Game</a>
+    </div>
+
+    <div class="project-card" data-cat="edtech">
+      <div class="pc-cat tech">EdTech · Database</div>
+      <div class="pc-title">SQL & NoSQL Academy</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Interactive browser-based platform for mastering database querying through gamified missions. Built with AlaSQL engine for real-time client-side processing. Features bilingual support (ID/EN), split-screen layout, and smart error handling.</div>
+      <div class="pc-strategy">Strategy: <span>Client-Side Processing · Gamified Learning</span></div>
+      <a href="https://anggaconni.github.io/Learn_SQL/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> SQL World</a>
+    </div>
+
+    <div class="project-card" data-cat="edtech">
+      <div class="pc-cat tech">EdTech · Indigenous Scripts</div>
+      <div class="pc-title">GlobalScript Writing App</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Freehand writing app prioritizing "embodied learning" over simple accuracy for global and indigenous scripts. Supports Javanese, Sundanese, Bugis, Batak, Balinese, and more. Accessibility-first design.</div>
+      <div class="pc-strategy">Strategy: <span>Embodied Learning · Accessibility</span></div>
+      <a href="https://anggaconni.github.io/learn-to-write/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> Live App</a>
+    </div>
+
+    <div class="project-card" data-cat="edtech">
+      <div class="pc-cat tech">EdTech · Web Dev</div>
+      <div class="pc-title">Retro Web Dev Labs</div>
+      <div class="pc-org">Independent Consultant · 2025</div>
+      <div class="pc-desc">Nostalgic interactive coding education games (90 levels per track). HTML/CSS Lab teaches legacy table layouts to modern Flexbox/Grid. JS Lab introduces logic and vanilla JavaScript. Features guided mode, live browser rendering, and standalone export.</div>
+      <div class="pc-strategy">Strategy: <span>EdTech Gamification · Live Rendering</span></div>
+      <a href="https://anggaconni.github.io/Learn-HTML/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> HTML Lab</a>
+    </div>
+
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ─── BEHAVIORAL / INFLUENCE ─── -->
+<section id="behavioral" class="section fade-in">
+  <div class="section-head">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Influence &amp; <em>Behavioral Strategy</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <p style="font-size:.9rem;color:var(--muted);margin-bottom:24px;">30 documented influence and diplomatic maneuvers applied across UN agencies, government ministries, and field operations.</p>
+
+  <div class="behavioral-grid" id="behGrid">
+
+    <div class="beh-card">
+      <div class="beh-num">01 · UNESCO</div>
+      <div class="beh-title">Informal Diplomacy & Reciprocity</div>
+      <div class="beh-ctx">Brunei DG Culture Relations</div>
+      <div class="beh-desc">Shared meals and casual activities at Jeonju Workshop to build personal rapport, reopening a UNESCO Jakarta–Brunei diplomatic channel inactive for months.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">02 · UNDP</div>
+      <div class="beh-title">Social Proof for Digital Adoption</div>
+      <div class="beh-ctx">SMILE Rollout Papua</div>
+      <div class="beh-desc">Accelerated district-level adoption by strategically engaging a respected local officer whose participation sparked wider peer adoption through social proof.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">03 · UNESCO</div>
+      <div class="beh-title">Liking Principle (Relationship Diplomacy)</div>
+      <div class="beh-ctx">Jeonju International Workshop</div>
+      <div class="beh-desc">Strengthened cooperation with international delegates through shared cultural stories and humor, transforming stalled bureaucratic exchanges into productive collaboration.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">04 · UNDP</div>
+      <div class="beh-title">COM-B Application in Remote Health</div>
+      <div class="beh-ctx">Papua Health Worker Adoption</div>
+      <div class="beh-desc">Increased digital vaccine reporting adoption by addressing Capability (training), Opportunity (offline tools), and Motivation (professional pride) simultaneously.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">05 · UNDP</div>
+      <div class="beh-title">Strategic Framing for Policy Uptake</div>
+      <div class="beh-ctx">SMILE App Adoption</div>
+      <div class="beh-desc">Reframed system not as administrative burden but as a tool to showcase local achievements to central government — shifting worker perception from resistance to pride.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">06 · UNESCO</div>
+      <div class="beh-title">Loss-Aversion Framing</div>
+      <div class="beh-ctx">Funding Continuation</div>
+      <div class="beh-desc">Strengthened urgency among decision-makers by framing funding risks as potential loss of partner trust, improving programme continuation support.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">07 · UNESCO</div>
+      <div class="beh-title">Ben Franklin Effect</div>
+      <div class="beh-ctx">UNESCO HQ Consultant Relations</div>
+      <div class="beh-desc">Built rapport with senior international consultant by asking for a small cultural clarification — creating positive interpersonal investment that improved future collaboration.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">08 · UNESCO</div>
+      <div class="beh-title">Institutional Authority Framing</div>
+      <div class="beh-ctx">Ministry Policy Uptake</div>
+      <div class="beh-desc">Increased ministry acceptance of recommendations by framing them under UNESCO's 2003 Convention Operational Directives rather than personal project notes.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">09 · UNESCO</div>
+      <div class="beh-title">Budget Anchoring</div>
+      <div class="beh-ctx">International Workshop Budgeting</div>
+      <div class="beh-desc">Influenced budget deliberations by proposing a reasonable starting figure early in discussions, establishing a constructive anchor that shaped subsequent negotiation.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">10 · UNESCO</div>
+      <div class="beh-title">Tit-for-Tat Strategy</div>
+      <div class="beh-ctx">Partner Accountability</div>
+      <div class="beh-desc">Maintained balanced cooperation by proportionally adjusting support to partners who delayed deliverables, restoring full assistance when they re-engaged.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">11 · UNDP</div>
+      <div class="beh-title">Foot-in-the-Door</div>
+      <div class="beh-ctx">Digital System Rollout</div>
+      <div class="beh-desc">Secured full district buy-in for digital reporting integration by first requesting only a small, low-risk trial upload — gradually building comfort and commitment.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">12 · UNDP</div>
+      <div class="beh-title">Nudge Design</div>
+      <div class="beh-ctx">Reporting Compliance</div>
+      <div class="beh-desc">Increased completion rates by designing pre-filled templates and visible "Save & Sync" buttons, making the correct behavior the easiest and most natural option.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">13 · UNDP</div>
+      <div class="beh-title">Pygmalion Effect</div>
+      <div class="beh-ctx">Officer Motivation</div>
+      <div class="beh-desc">Improved confidence and participation by publicly acknowledging a hesitant officer as a "digital pioneer," inspiring self-fulfilling achievement and peer imitation.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">14 · UNESCO</div>
+      <div class="beh-title">Door-in-the-Face Negotiation</div>
+      <div class="beh-ctx">Training Program Agreement</div>
+      <div class="beh-desc">Secured agreement for an online ICH training by first proposing a far more resource-intensive offline event, making the actual online request appear modest and feasible.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">15 · UNESCO</div>
+      <div class="beh-title">Strategic Silence</div>
+      <div class="beh-ctx">High-Level Consultative Meetings</div>
+      <div class="beh-desc">Presented UNESCO's position clearly — then paused. The ministry side, filling the silence, voluntarily disclosed their internal obstacles, enabling targeted solution proposals.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">16 · UNESCO</div>
+      <div class="beh-title">Issue Reframing & De-escalation</div>
+      <div class="beh-ctx">Rendang Nomination Debate (Jeonju)</div>
+      <div class="beh-desc">Mediated tense multinational ICH debate by redirecting to media involvement — a critical but overlooked dimension — allowing the discussion to move forward constructively.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">17 · UNESCO</div>
+      <div class="beh-title">Cognitive Ownership Technique</div>
+      <div class="beh-ctx">CBI System (SIDS Nation)</div>
+      <div class="beh-desc">Applied Consistency Principle to overcome institutional resistance to digital heritage reporting system — securing official leadership endorsement for the full digital roadmap.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">18 · UNESCO</div>
+      <div class="beh-title">Cultural Intelligence & Power Distance</div>
+      <div class="beh-ctx">Government Relations</div>
+      <div class="beh-desc">Interpreted delayed government responses as hierarchical deference rather than resistance. Acknowledged senior officials before engaging junior staff, respecting cultural norms to improve coordination.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">19 · UNDP</div>
+      <div class="beh-title">Dual-Process Communication</div>
+      <div class="beh-ctx">Persuasive Pitching</div>
+      <div class="beh-desc">Strengthened support for Papua's digital transformation by leading with emotional narrative about children's vaccination before presenting data — engaging both System 1 and System 2 thinking.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">20 · UNESCO</div>
+      <div class="beh-title">Nonverbal Synchronization (Mirror Neurons)</div>
+      <div class="beh-ctx">ASEAN Delegate Relations</div>
+      <div class="beh-desc">Matched conversational pace and tone with ASEAN delegates, creating subconscious rapport and using inclusive language ("our region") to encourage ingroup cohesion.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">21 · UNESCO</div>
+      <div class="beh-title">Long-Term Reputation Capital</div>
+      <div class="beh-ctx">ASEAN Event Management</div>
+      <div class="beh-desc">Secured rapid confirmations from ministries for ASEAN events due to established track record of reliability, reducing negotiation overhead and administrative back-and-forth significantly.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">22 · UNESCO</div>
+      <div class="beh-title">Political Economy Mapping</div>
+      <div class="beh-ctx">ICH Governance Advisory</div>
+      <div class="beh-desc">Conducted confidential stakeholder power-network mapping identifying elite alliances, influence pathways, and potential spoilers within national cultural governance ecosystems during political transitions.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">23 · UNESCO</div>
+      <div class="beh-title">Green Nudge / E-Waste Advocacy</div>
+      <div class="beh-ctx">Internal UN Sustainability</div>
+      <div class="beh-desc">Advocated for mechanical keyboards and modular PCs to reduce e-waste — adopted by the Administrative Unit. Persuaded staff to repair devices rather than replace them.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">24 · UNDP</div>
+      <div class="beh-title">Scarcity Messaging</div>
+      <div class="beh-ctx">Event Engagement</div>
+      <div class="beh-desc">Boosted participation and motivation by framing selection for recognition as limited ("only one best worker"), increasing urgency and competitive enthusiasm.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">25 · UNDP</div>
+      <div class="beh-title">Intrinsic Motivation (Self-Determination Theory)</div>
+      <div class="beh-ctx">SMILE System Adoption</div>
+      <div class="beh-desc">Enhanced digital tool adoption by inviting district officers' input on system features and positioning them as peer trainers — giving genuine ownership and autonomous motivation.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">26 · UNESCO</div>
+      <div class="beh-title">Institutional Trust Repair</div>
+      <div class="beh-ctx">Post-Miscommunication Recovery</div>
+      <div class="beh-desc">Rebuilt working relationships after miscommunication by acknowledging the issue, clarifying intentions, and maintaining transparent, consistent follow-up over multiple interactions.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">27 · UNDP</div>
+      <div class="beh-title">Cognitive Alignment (Identity Appeal)</div>
+      <div class="beh-ctx">Health Worker Compliance</div>
+      <div class="beh-desc">Boosted reporting compliance by appealing to health workers' core identity as "protectors of Papua's children" — aligning system purpose with deeply held personal values.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">28 · UNESCO</div>
+      <div class="beh-title">Perspective-Taking</div>
+      <div class="beh-ctx">Government Relations</div>
+      <div class="beh-desc">Improved responsiveness by acknowledging ministries' political and administrative pressures and adjusting timelines to preserve their institutional face during sensitive periods.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">29 · Ministry of Village</div>
+      <div class="beh-title">Ad-Hoc FGD Crisis Response</div>
+      <div class="beh-ctx">Dana Desa Miscommunication</div>
+      <div class="beh-desc">Conducted spontaneous village-level FGD to clarify Dana Desa usage flexibility under decentralization law, resolving widespread misconception about mandatory 70% infrastructure allocation.</div>
+    </div>
+
+    <div class="beh-card">
+      <div class="beh-num">30 · UNESCO</div>
+      <div class="beh-title">Timing Intelligence</div>
+      <div class="beh-ctx">Diplomatic Relationship Building</div>
+      <div class="beh-desc">Chose informal, relaxed settings (casual evening walks, shared meals, market visits) to engage senior officials — generating more open and productive dialogue than formal sessions.</div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ─── PUBLICATIONS ─── -->
+<section id="publications" class="section fade-in">
+  <div class="section-head">
+    <span class="section-num">04</span>
+    <h2 class="section-title"><em>Publications</em> & Media</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('pub-archive',this)">Full Archive (48)</button>
+    <button class="tab-btn" onclick="switchTab('pub-multimedia',this)">Multimedia Works</button>
+    <button class="tab-btn" onclick="switchTab('pub-featured',this)">Featured Books</button>
+    <button class="tab-btn" onclick="switchTab('pub-media',this)">Media Mentions</button>
+  </div>
+
+  <!-- ARCHIVE TABLE -->
+  <div class="tab-panel active" id="pub-archive">
+    <div style="overflow:auto;max-height:480px;border:1px solid var(--border);border-radius:4px;">
+      <table class="pub-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>Title</th>
+            <th>Details</th>
+            <th>Year</th>
+          </tr>
+        </thead>
+        <tbody id="pubTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MULTIMEDIA -->
+  <div class="tab-panel" id="pub-multimedia">
+    <p style="font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-bottom:20px;letter-spacing:.05em;">// Videography · Web Design · Strategic Communications — selected works for UNESCO & UNDP</p>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="pc-cat tech">Videographer &amp; Video Editor</div>
+        <div class="pc-title">UNESCO Global Network of Facilitators (Asia-Pacific)</div>
+        <div class="pc-org">UNESCO Jakarta × UNESCO Beijing · 2024</div>
+        <div class="pc-desc">Produced high-quality video footage and interviews for the Living Heritage Secretariat (UNESCO Beijing). Recognized by HQ for delivering professional broadcast standards using agile field equipment. Output published on UNESCO's global website.</div>
+        <div class="pc-strategy">Context: <span>Asia-Pacific Chapter, 2003 Convention · 18 New Facilitators</span></div>
+        <a href="https://www.unesco.org/en/articles/asia-and-pacific-chapter-2003-conventions-global-network-facilitators-strengthened-18-new-members" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> View on UNESCO.org</a>
+      </div>
+
+      <div class="project-card">
+        <div class="pc-cat policy">Event Organizer &amp; Communications Lead</div>
+        <div class="pc-title">Regional Workshop on World War Shipwrecks in Southeast Asia</div>
+        <div class="pc-org">UNESCO · Dec 2023</div>
+        <div class="pc-desc">Managed end-to-end organization and visibility for this high-level regional meeting. Drafted press releases, managed media relations, and produced the official web article covering threats of marine pollution and looting of underwater cultural heritage.</div>
+        <div class="pc-strategy">Context: <span>Threats of Marine Pollution &amp; Looting · Ministry of Fisheries Liaison</span></div>
+        <a href="https://www.unesco.org/en/articles/world-war-shipwrecks-southeast-asia-threats-marine-pollution-and-looting" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> View on UNESCO.org</a>
+      </div>
+
+      <div class="project-card">
+        <div class="pc-cat teal">Webinar Organizer &amp; Content Strategist</div>
+        <div class="pc-title">Capacity Building Workshop on ICH (CRIHAP)</div>
+        <div class="pc-org">UNESCO × CRIHAP · Indonesia &amp; Malaysia · 2023</div>
+        <div class="pc-desc">Organized a joint webinar between Indonesia and Malaysia to address sensitive cross-border cultural heritage claims, promoting sustainable development through shared heritage frameworks. Content published on CRIHAP's international website.</div>
+        <div class="pc-strategy">Context: <span>Indonesia–Malaysia Cross-border ICH Claims · World Heritage</span></div>
+        <a href="https://en.crihap.cn/a/202311/28/WS656591b7a310decc1a222798.html" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> View on CRIHAP.cn</a>
+      </div>
+
+      <div class="project-card">
+        <div class="pc-cat tech">Web Designer &amp; Content Creator</div>
+        <div class="pc-title">UNDP SMILE Project Repository &amp; Documentation</div>
+        <div class="pc-org">UNDP Papua · 2022–2023</div>
+        <div class="pc-desc">Designed and built a comprehensive digital repository website to document the SMILE digital health transformation project. Included end-to-end video production and workshop documentation — consolidating field data, health worker stories, and training records in an accessible, organized format.</div>
+        <div class="pc-strategy">Context: <span>Health Supply Chain · Papua Digital Transformation · Video Production</span></div>
+        <a href="https://conniezzcool.wixsite.com/undp-meeting-smile-r" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> View Repository Site</a>
+      </div>
+
+      <div class="project-card">
+        <div class="pc-cat policy">Event Moderator &amp; Communications Support</div>
+        <div class="pc-title">UNESCO Jakarta Talkshow: Youth &amp; Cultural Diversity</div>
+        <div class="pc-org">UNESCO Jakarta · UN Day 2023</div>
+        <div class="pc-desc">Contributed to the implementation of the UN Day Talkshow addressing misinformation among youth regarding Intangible Cultural Heritage. Acted as a moderator to facilitate engaging discussions on cultural diversity and the role of young people in heritage safeguarding.</div>
+        <div class="pc-strategy">Context: <span>UN Day · Youth Engagement · ICH Misinformation</span></div>
+        <a href="https://www.instagram.com/reel/CzF6_9oLOiv/" target="_blank" class="pc-link"><i class="fab fa-instagram"></i> View on Instagram</a>
+      </div>
+
+      <div class="project-card">
+        <div class="pc-cat tech">Multimedia Producer (End-to-End)</div>
+        <div class="pc-title">UNDP Papua Health Worker Documentary</div>
+        <div class="pc-org">UNDP · Papua · 2022</div>
+        <div class="pc-desc">Researched and produced documentary videos and blog content highlighting the dedication of health workers with disabilities in remote Papua. Organized a Photostory exhibition at the Ministry of Health. Managed full production pipeline: scriptwriting, voice-over recording, video editing, and final upload.</div>
+        <div class="pc-strategy">Context: <span>Health Worker Stories · Disability Advocacy · Papua Remote Districts</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MEDIA MENTIONS -->
+  <div class="tab-panel" id="pub-media">
+    <p style="font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-bottom:20px;letter-spacing:.05em;">// External mentions and references in international, national, and regional publications</p>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="pc-cat teal">International · Heritage Policy</div>
+        <div class="pc-title">ICOMOS Philippines — UNESCO Heritage Emergency Fund</div>
+        <div class="pc-org">Philippines ICOMOS · October 2023</div>
+        <div class="pc-desc">ICOMOS Philippines selected as implementing partner for the first UNESCO Heritage Emergency Fund project for the Republic of the Philippines — a project supported and facilitated through UNESCO's regional coordination network, reflecting the field work carried out in the region.</div>
+        <div class="pc-strategy">Context: <span>UNESCO · Cultural Heritage · Emergency Fund · Philippines</span></div>
+        <a href="https://philippines.icomos.org/2023/10/16/icomos-philippines-selected-as-the-implementing-partner-of-the-first-unesco-heritage-emergency-fund-project-for-the-republic-of-the-philippines/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> View on ICOMOS Philippines</a>
+      </div>
+
+      <div class="project-card">
+        <div class="pc-cat policy">Cultural Heritage · Foodways</div>
+        <div class="pc-title">JamuPedia — Kaleidoscope of 2024</div>
+        <div class="pc-org">Jamupedia · 2024</div>
+        <div class="pc-desc">Featured in JamuPedia's 2024 year-in-review — an Indonesian cultural heritage platform documenting traditional knowledge and culinary practices. Related to ICH documentation and Foodways advocacy work carried out with UNESCO Jakarta.</div>
+        <div class="pc-strategy">Context: <span>Traditional Knowledge · ICH · Indonesian Cultural Heritage</span></div>
+        <a href="https://en.jamupedia.com/jamupedias-kaleidoscope-of-2024/" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> View on JamuPedia</a>
+      </div>
+
+      <div class="project-card">
+        <div class="pc-cat amber">National · Rural Development</div>
+        <div class="pc-title">BUMDesa Payang Sejahtera — Nationally Recognized</div>
+        <div class="pc-org">Dinas DPMPD Kaltim · East Kalimantan · 2018</div>
+        <div class="pc-desc">The BUMDesa Payang Sejahtera, profiled in the authored publication (ISBN: 978-623-7129-25-7), was recognized by the East Kalimantan provincial government as a nationally qualifying successful Village-Owned Enterprise. The profile authored at the Ministry of Village directly contributed to this recognition.</div>
+        <div class="pc-strategy">Context: <span>BUMDesa · Village Enterprise · East Kalimantan · Rural Development</span></div>
+        <a href="https://dpmpd.kaltimprov.go.id/artikel/bumdes-payang-sejahtera-masuk-kriteria-bumdes-sukses-indonesia-2018" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i> View on DPMPD Kaltim</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FEATURED BOOKS -->
+  <div class="tab-panel" id="pub-featured">
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div style="font-family:var(--mono);font-size:.55rem;color:var(--muted);margin-bottom:6px;">2019 · ISBN: 978-623-7129-82-0</div>
+        <div class="edu-degree">Kawasan Perdesaan Agropolitan Rasau Jaya</div>
+        <div class="edu-school">Author & Layout Designer</div>
+        <div class="edu-note">Comprehensive analysis of agropolitan rural areas in West Kalimantan, focusing on regional economic development strategies and sustainable land use planning.</div>
+      </div>
+      <div class="edu-card">
+        <div style="font-family:var(--mono);font-size:.55rem;color:var(--muted);margin-bottom:6px;">2018 · ISBN: 978-623-7129-25-7</div>
+        <div class="edu-degree">Profil BUM Desa Payang Sejahtera (Kaltim)</div>
+        <div class="edu-school">Author & Editor</div>
+        <div class="edu-note">Profile of a successful rural enterprise in East Kalimantan, highlighting best practices in community-led economic development and village fund management.</div>
+      </div>
+      <div class="edu-card">
+        <div style="font-family:var(--mono);font-size:.55rem;color:var(--muted);margin-bottom:6px;">2018 · ISBN: 978-623-7129-31-8</div>
+        <div class="edu-degree">Profil BUM Desa Cahaya Selo (Yogyakarta)</div>
+        <div class="edu-school">Author & Editor</div>
+        <div class="edu-note">Documentation of sustainable rural business models and their measurable impact on local economic resilience in Yogyakarta province.</div>
+      </div>
+      <div class="edu-card">
+        <div style="font-family:var(--mono);font-size:.55rem;color:var(--muted);margin-bottom:6px;">2018 · ISBN: 978-623-7129-69-1</div>
+        <div class="edu-degree">Dinamika Pembangunan Desa (7 Pulau)</div>
+        <div class="edu-school">Editor · 7-Island Edition</div>
+        <div class="edu-note">Comparative analysis of rural development dynamics across 7 major Indonesian islands, examining regional disparities and localized success factors.</div>
+      </div>
+      <div class="edu-card">
+        <div style="font-family:var(--mono);font-size:.55rem;color:var(--muted);margin-bottom:6px;">2017 · Internal Publication</div>
+        <div class="edu-degree">Dana Desa 2017 + BUMDesa 2017</div>
+        <div class="edu-school">Writer · Ministry of Village</div>
+        <div class="edu-note">Authored two key Ministry of Village internal publications on village fund policy and village-owned enterprises — reference materials for national distribution to district governments.</div>
+      </div>
+      <div class="edu-card">
+        <div style="font-family:var(--mono);font-size:.55rem;color:var(--muted);margin-bottom:6px;">2017 · 33 Province Series</div>
+        <div class="edu-degree">Pocket Books for Provincial Work Visits</div>
+        <div class="edu-school">Writer · 33 Books</div>
+        <div class="edu-note">Authored 33 concise and informative pocket reference books covering each Indonesian province — used by Ministry leadership during field visits and stakeholder engagements.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ─── EDUCATION ─── -->
+<section id="education" class="section fade-in">
+  <div class="section-head">
+    <span class="section-num">05</span>
+    <h2 class="section-title"><em>Education</em> & Training</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="edu-grid" style="margin-bottom:32px;">
+
+    <div class="edu-card">
+      <div class="edu-degree">Master of Science in Public Policy Administration</div>
+      <div class="edu-school">Prof. Dr. Moestopo (Beragama) University, Jakarta</div>
+      <div class="edu-period">May 2016 — March 2019</div>
+      <div class="edu-gpa">GPA: 3.87 / 4.00</div>
+      <div class="edu-note">Thesis: <em>"Analysis of Organizational Effectiveness at the Ministry of Village (Case Study: Data and Information Center)"</em> — An academic evaluation of the national data center I managed directly, bridging policy theory and data governance practice.</div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-degree">Bachelor of Economics — Human Resources Management</div>
+      <div class="edu-school">STIE YAPAN Surabaya</div>
+      <div class="edu-period">August 2009 — June 2013</div>
+      <div class="edu-gpa">GPA: 3.13 / 4.00</div>
+      <div class="edu-note">Focus: Human Capacity Development. Specialized in organizational behavior, HR management, and institutional capacity building frameworks.</div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-degree">Undergraduate Coursework — Communication & Journalism</div>
+      <div class="edu-school">BINUS · UNAS · Mercu Buana (104 Credits)</div>
+      <div class="edu-period">Various Institutions</div>
+      <div class="edu-note">Dual focus on Public Relations and Journalism. Key modules: Media Relations, Strategic Communication, Journalism Fundamentals, Crisis Management. Foundation for stakeholder diplomacy and high-level reporting expertise.</div>
+    </div>
+
+  </div>
+
+  <!-- SKILLS -->
+  <div class="section-head" style="margin-top:16px;">
+    <span class="section-num" style="color:var(--teal);">—</span>
+    <h3 class="section-title" style="font-size:1.3rem;">Core <em>Competencies</em></h3>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill-category">
+      <div class="skill-cat-title">Policy & Strategy</div>
+      <div class="skill-item">Change Management & Institutional Reform</div>
+      <div class="skill-item">Public Policy Design & Foresight</div>
+      <div class="skill-item">Political Economy Analysis</div>
+      <div class="skill-item">Stakeholder Mapping & Risk Analysis</div>
+      <div class="skill-item">Theory of Change / M&E Design</div>
+      <div class="skill-item">UN Convention Implementation</div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Technology</div>
+      <div class="skill-item">HTML5 · CSS3 · Vanilla JavaScript</div>
+      <div class="skill-item">Python · Machine Learning (Prototype)</div>
+      <div class="skill-item">Google Apps Script (Advanced)</div>
+      <div class="skill-item">Three.js · Leaflet.js · D3.js</div>
+      <div class="skill-item">GIS · Spatial Data Analysis</div>
+      <div class="skill-item">AI-Augmented Development (Gemini)</div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Behavioral Science</div>
+      <div class="skill-item">COM-B Behavioral Model</div>
+      <div class="skill-item">Nudge Design & Choice Architecture</div>
+      <div class="skill-item">Social Proof & Framing</div>
+      <div class="skill-item">Dual-Process Communication</div>
+      <div class="skill-item">Influence & Persuasion Strategies</div>
+      <div class="skill-item">Gamification for Behavior Change</div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Multilateral & Diplomacy</div>
+      <div class="skill-item">Informal Diplomacy & Rapport Building</div>
+      <div class="skill-item">Cross-cultural Negotiation</div>
+      <div class="skill-item">UN System Operations</div>
+      <div class="skill-item">Resource Mobilization</div>
+      <div class="skill-item">Multi-Stakeholder Facilitation</div>
+      <div class="skill-item">Conflict De-escalation</div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Content & Communication</div>
+      <div class="skill-item">Technical & Policy Writing (48 ISBNs)</div>
+      <div class="skill-item">Public Speaking & Moderation</div>
+      <div class="skill-item">Video Production & Editing</div>
+      <div class="skill-item">Graphic Design (CorelDRAW)</div>
+      <div class="skill-item">Bilingual (ID / EN)</div>
+      <div class="skill-item">Crisis Communications</div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Sectors</div>
+      <div class="skill-item">Health Supply Chain & Digital Health</div>
+      <div class="skill-item">Education for Sustainable Development</div>
+      <div class="skill-item">Cultural Heritage (ICH / UCH)</div>
+      <div class="skill-item">Rural & Village Development</div>
+      <div class="skill-item">Ocean Literacy & Blue Economy</div>
+      <div class="skill-item">CSR & Circular Economy</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ─── CONTACT ─── -->
+<section id="contact" class="section fade-in">
+  <div class="section-head">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Establish <em>Connection</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <p style="font-size:1rem;color:var(--text);margin-bottom:24px;max-width:540px;">Open for collaboration on Gov-Tech, Policy Reform, Behavioral Change programs, and Strategic Consultancy across LMICs.</p>
+
+  <div class="contact-grid">
+    <a href="/cdn-cgi/l/email-protection#8fece0e1e1e6eaf5f5a1ece0e0e3cfe8e2eee6e3a1ece0e2" class="contact-card">
+      <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+      <div>
+        <div class="contact-label">Email</div>
+        <div class="contact-val"><span class="__cf_email__" data-cfemail="33505c5d5d5a5649491d505c5c5f73545e525a5f1d505c5e">[email&#160;protected]</span></div>
+      </div>
+    </a>
+    <a href="tel:+628998788909" class="contact-card">
+      <div class="contact-icon"><i class="fas fa-phone"></i></div>
+      <div>
+        <div class="contact-label">Phone / WhatsApp</div>
+        <div class="contact-val">+62 8998 788 909</div>
+      </div>
+    </a>
+    <a href="https://linkedin.com/in/angga-conni/" target="_blank" class="contact-card">
+      <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
+      <div>
+        <div class="contact-label">LinkedIn</div>
+        <div class="contact-val">linkedin.com/in/angga-conni</div>
+      </div>
+    </a>
+    <a href="https://anggaconni.github.io" target="_blank" class="contact-card">
+      <div class="contact-icon"><i class="fab fa-github"></i></div>
+      <div>
+        <div class="contact-label">Portfolio / GitHub</div>
+        <div class="contact-val">anggaconni.github.io</div>
+      </div>
+    </a>
+    <a href="https://wa.me/628998788909" target="_blank" class="contact-card">
+      <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+      <div>
+        <div class="contact-label">WhatsApp Direct</div>
+        <div class="contact-val">Chat Now</div>
+      </div>
+    </a>
+    <div class="contact-card" style="cursor:default;">
+      <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+      <div>
+        <div class="contact-label">Location</div>
+        <div class="contact-val">Jakarta, Indonesia · 13650</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 <span>ANGGA CONNI SAPUTRA</span> · Crafted with Caffeine ☕ · System Status: <span>Operational</span></p>
+  <p style="margin-top:6px;">Built on: HTML5 · Zero-Cost · Serverless · AI-Augmented · Open Source Philosophy</p>
+</footer>
+
+<script>
+// ─── PUBLICATIONS DATA ───
+const pubData = [
+  {type:"Author",title:"Kawasan Perdesaan Agropolitan Rasau Jaya",detail:"ISBN: 978-623-7129-82-0",year:"2019"},
+  {type:"Author",title:"Profil BUM Desa Payang Sejahtera (Kaltim)",detail:"ISBN: 978-623-7129-25-7",year:"2018"},
+  {type:"Author",title:"Profil BUM Desa Cahaya Selo (Yogyakarta)",detail:"ISBN: 978-623-7129-31-8",year:"2018"},
+  {type:"Writer",title:"Bumdesa 2017",detail:"Internal Org",year:"2017"},
+  {type:"Writer",title:"Dana Desa 2017",detail:"Internal Org",year:"2017"},
+  {type:"Writer",title:"Survey Perkembangan Desa 2017",detail:"Internal Org",year:"2017"},
+  {type:"Writer",title:"Buku Kunjungan Kerja Prov. Aceh",detail:"Internal Org",year:"2017"},
+  {type:"Writer",title:"Buku Kunjungan Kerja Prov. Sumut",detail:"Internal Org",year:"2017"},
+  {type:"Writer",title:"Buku Kunjungan Kerja Prov. Sumbar",detail:"Internal Org",year:"2017"},
+  {type:"Writer",title:"Buku Kunjungan Kerja Prov. Sumsel",detail:"Internal Org",year:"2017"},
+  {type:"Writer",title:"Buku Kunjungan Kerja Prov. Jabar",detail:"Internal Org",year:"2017"},
+  {type:"Writer",title:"Buku Kunjungan Kerja Prov. Jatim",detail:"Internal Org",year:"2017"},
+  {type:"Writer",title:"Buku Kunjungan Kerja Prov. Bali",detail:"Internal Org",year:"2017"},
+  {type:"Writer",title:"Buku Kunjungan Kerja Prov. DIY",detail:"Internal Org",year:"2017"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Aceh",detail:"ISBN: 978-623-7129-38-7",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Lampung",detail:"ISBN: 978-623-7129-39-4",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Sumsel",detail:"ISBN: 978-623-7129-40-0",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Kepri",detail:"ISBN: 978-623-7129-41-7",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Sumut",detail:"ISBN: 978-623-7129-42-4",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Sumbar",detail:"ISBN: 978-623-7129-43-1",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Jambi",detail:"ISBN: 978-623-7129-44-8",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Bengkulu",detail:"ISBN: 978-623-7129-45-5",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Babel",detail:"ISBN: 978-623-7129-46-2",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Banten",detail:"ISBN: 978-623-7129-47-9",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. DIY",detail:"ISBN: 978-623-7129-48-6",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Jabar",detail:"ISBN: 978-623-7129-49-3",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Jateng",detail:"ISBN: 978-623-7129-50-9",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Jatim",detail:"ISBN: 978-623-7129-51-6",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Bali",detail:"ISBN: 978-623-7129-52-3",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. NTB",detail:"ISBN: 978-623-7129-53-0",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. NTT",detail:"ISBN: 978-623-7129-54-7",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Kalbar",detail:"ISBN: 978-623-7129-55-4",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Kalteng",detail:"ISBN: 978-623-7129-56-1",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Kaltara",detail:"ISBN: 978-623-7129-57-8",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Sulut",detail:"ISBN: 978-623-7129-58-5",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Sulbar",detail:"ISBN: 978-623-7129-59-2",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Sulteng",detail:"ISBN: 978-623-7129-60-8",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Sulsel",detail:"ISBN: 978-623-7129-61-5",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Kaltim",detail:"ISBN: 978-623-7129-62-2",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Kalsel",detail:"ISBN: 978-623-7129-63-9",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Sultra",detail:"ISBN: 978-623-7129-64-6",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Gorontalo",detail:"ISBN: 978-623-7129-65-3",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Maluku",detail:"ISBN: 978-623-7129-66-0",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Malut",detail:"ISBN: 978-623-7129-67-7",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Riau",detail:"ISBN: 978-623-7129-71-4",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Papua Barat",detail:"ISBN: 978-623-7129-72-1",year:"2018"},
+  {type:"Editor",title:"Manfaat Dana Desa Prov. Papua",detail:"ISBN: 978-623-7129-70-7",year:"2018"},
+  {type:"Editor",title:"Dinamika Pembangunan Desa (7 Pulau)",detail:"ISBN: 978-623-7129-69-1",year:"2018"}
+];
+
+// ─── ALL FUNCTIONS ON WINDOW (required for onclick= in sandboxed iframe) ───
+
+window.filterCards = function(cat, btn) {
+  document.querySelectorAll('.filter-chip').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.project-card').forEach(function(card){
+    if(cat==='all' || card.getAttribute('data-cat')===cat){
+      card.classList.remove('hidden-card');
+    } else {
+      card.classList.add('hidden-card');
+    }
+  });
+};
+
+window.switchTab = function(id, btn) {
+  var section = btn.closest('.section');
+  section.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  section.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+};
+
+window.toggleCollapse = function(el) {
+  el.classList.toggle('open');
+  var body = el.querySelector('.collapse-body');
+  if(body) body.classList.toggle('open');
+};
+
+window.toggleMobileNav = function() {
+  var nav = document.getElementById('mobileNav');
+  if(nav) nav.classList.toggle('open');
+};
+
+// ─── DOM READY ───
+document.addEventListener('DOMContentLoaded', function() {
+
+  // Render publications table
+  var tbody = document.getElementById('pubTableBody');
+  if(tbody) {
+    pubData.forEach(function(row, i){
+      var tr = document.createElement('tr');
+      var badgeCls = row.type==='Author' ? 'badge-author' : (row.type==='Editor' ? 'badge-editor' : 'badge-writer');
+      tr.innerHTML =
+        '<td style="color:var(--muted);font-family:var(--mono);font-size:.6rem;">' + String(i+1).padStart(2,'0') + '</td>' +
+        '<td><span class="pub-type-badge ' + badgeCls + '">' + row.type + '</span></td>' +
+        '<td style="color:var(--text-bright);">' + row.title + '</td>' +
+        '<td style="color:var(--muted);font-family:var(--mono);font-size:.62rem;">' + row.detail + '</td>' +
+        '<td style="color:var(--muted);font-family:var(--mono);font-size:.62rem;">' + row.year + '</td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  // ─── SCROLL ANIMATIONS (progressive enhancement) ───
+  document.documentElement.classList.add('js-loaded');
+
+  if('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('visible'); }
+      });
+    },{threshold:0.05, rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.tl-item,.fade-in').forEach(function(el){ observer.observe(el); });
+  } else {
+    // Fallback for no IntersectionObserver
+    document.querySelectorAll('.tl-item,.fade-in').forEach(function(el){ el.classList.add('visible'); });
+  }
+
+  // Immediate fallback: mark elements already in viewport as visible
+  setTimeout(function(){
+    document.querySelectorAll('.tl-item,.fade-in').forEach(function(el){
+      var rect = el.getBoundingClientRect();
+      if(rect.top < window.innerHeight + 100){ el.classList.add('visible'); }
+    });
+  }, 150);
+
+  // ─── ACTIVE NAV LINK on scroll ───
+  var navLinks = document.querySelectorAll('.nav-links a');
+  var allSections = document.querySelectorAll('section[id]');
+
+  window.addEventListener('scroll', function(){
+    var cur = '';
+    allSections.forEach(function(s){
+      if(window.scrollY >= s.offsetTop - 100){ cur = s.id; }
+    });
+    navLinks.forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+    });
+  }, {passive:true});
+
+});
+</script>
 </body>
 </html>
