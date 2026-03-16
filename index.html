@@ -181,6 +181,16 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
+        /* Bureaucracy Breaker Game Styles */
+        .touch-none { touch-action: none; }
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-bounce-slow { animation: bounce-subtle 2s infinite; }
+        #gameCanvas rect, #gameCanvas circle { transition: fill 0.3s ease; }
+
     </style>
 </head>
 <body class="font-sans min-h-screen flex flex-col">
@@ -692,6 +702,67 @@
             
             <div class="relative border-l-2 border-slate-700 ml-4 md:ml-0 space-y-12">
                 <div id="timeline-container"></div>
+            </div>
+        </div>
+    </section>
+
+     <!-- ═══════════════════════════════ GAME BRICK BREAKER ═══════════════════════════════ -->
+    <section id="game-section" class="py-20 px-4 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto glass-panel rounded-lg p-6 lg:p-8 border border-term-border relative overflow-hidden glow-blue">
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <div>
+                    <h3 class="text-2xl font-bold text-white flex items-center gap-2 font-mono">
+                        <i class="fas fa-gamepad text-term-blue"></i> Bureaucracy_Breaker<span class="text-term-blue">.sh</span>
+                    </h3>
+                    <p class="text-sm text-slate-400 mt-1 font-mono">
+                        // Mission: Destroy the red tape. Use mouse/touch to move the platform.
+                    </p>
+                </div>
+                <div class="flex gap-4 text-xs font-mono font-bold">
+                    <div class="bg-slate-900/80 px-4 py-2 rounded border border-slate-700 text-slate-300">
+                        SCORE: <span id="score" class="text-term-blue text-lg">0</span>
+                    </div>
+                    <div class="bg-slate-900/80 px-4 py-2 rounded border border-slate-700 text-slate-300">
+                        HI_SCORE: <span id="highScore" class="text-term-green text-lg">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gameContainer" class="relative w-full aspect-video md:aspect-[21/9] bg-black/40 rounded-lg overflow-hidden cursor-crosshair touch-none shadow-inner border border-slate-800 select-none">
+                <svg id="gameCanvas" viewBox="0 0 800 400" class="w-full h-full block">
+                    <g id="bricksGroup"></g>
+                    <g id="paddle" transform="translate(340, 374)">
+                        <rect x="-4" y="-4" width="128" height="24" fill="#3B82F6" opacity="0.2" rx="10" />
+                        <rect x="0" y="0" width="120" height="16" fill="#3B82F6" rx="4" />
+                        <rect x="4" y="2" width="112" height="2" fill="#93C5FD" opacity="0.5" rx="1" />
+                    </g>
+                    <g id="ball" transform="translate(400, 360)">
+                        <circle cx="0" cy="0" r="10" fill="#10B981" opacity="0.2" />
+                        <circle cx="0" cy="0" r="7" fill="#10B981" />
+                    </g>
+                </svg>
+
+                <div id="overlayIdle" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm flex flex-col items-center justify-center text-white z-20">
+                    <div class="w-16 h-16 bg-term-blue rounded-full flex items-center justify-center mb-4 animate-bounce shadow-lg cursor-pointer">
+                        <i class="fas fa-play ml-1"></i>
+                    </div>
+                    <h4 class="text-xl font-mono font-bold mb-2">Initialize Reform System?</h4>
+                    <p class="text-slate-400 text-sm font-mono">Click to execute</p>
+                </div>
+
+                <div id="overlayGameOver" class="absolute inset-0 bg-red-950/90 backdrop-blur-md hidden flex-col items-center justify-center text-white z-20">
+                    <h4 class="text-3xl font-black mb-2 font-mono text-red-500">BUREAUCRACY_WON</h4>
+                    <p id="finalScoreLoss" class="text-slate-300 mb-6 font-mono text-sm">System overload. Policies remained.</p>
+                    <button onclick="resetGame()" class="px-6 py-2 bg-white text-red-900 font-bold font-mono rounded hover:bg-red-100 transition">RETRY_INIT</button>
+                </div>
+
+                <div id="overlayWon" class="absolute inset-0 bg-slate-900/90 backdrop-blur-md hidden flex-col items-center justify-center text-white z-20">
+                    <i class="fas fa-trophy text-5xl text-term-yellow mb-4 animate-bounce-slow"></i>
+                    <h4 class="text-3xl font-black mb-2 font-mono text-term-green">SYSTEM_REFORMED</h4>
+                    <p id="finalScoreWin" class="text-slate-300 mb-6 font-mono text-sm">All red tape successfully cleared.</p>
+                    <button onclick="resetGame()" class="px-6 py-2 bg-term-green text-slate-900 font-bold font-mono rounded hover:bg-green-400 transition">RE-RUN</button>
+                </div>
             </div>
         </div>
     </section>
@@ -1259,6 +1330,84 @@
         // Active filter buttons for projects
         document.querySelectorAll('.filter-btn')[0].classList.add('active');
     });
+
+    // ─── BUREAUCRACY BREAKER LOGIC ──────────────────────────────────
+    const G_WIDTH = 800, G_HEIGHT = 400, P_WIDTH = 120, P_HEIGHT = 16, B_RAD = 7;
+    let gStatus = 'idle', gScore = 0, gHighScore = 0;
+    let ball = { x: 400, y: 360, dx: 5, dy: -5 }, paddleX = 340, bricks = [], gLoop;
+
+    const gCanvas = document.getElementById('gameCanvas'), gContainer = document.getElementById('gameContainer');
+    const bGroup = document.getElementById('bricksGroup'), ballEl = document.getElementById('ball'), padEl = document.getElementById('paddle');
+
+    function initBricks() {
+        bricks = []; bGroup.innerHTML = '';
+        const rows = 5, cols = 9, padding = 10, w = 74, h = 24, offT = 40, offL = 28;
+        const colors = ['#F43F5E', '#F97316', '#F59E0B', '#10B981', '#3B82F6'];
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                const bx = c * (w + padding) + offL, by = r * (h + padding) + offT;
+                const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                rect.setAttribute("x", bx); rect.setAttribute("y", by); rect.setAttribute("width", w); rect.setAttribute("height", h);
+                rect.setAttribute("fill", colors[r]); rect.setAttribute("rx", "2"); rect.setAttribute("id", `b-${bricks.length}`);
+                bGroup.appendChild(rect);
+                bricks.push({ x: bx, y: by, status: 1 });
+            }
+        }
+    }
+
+    function resetGame() {
+        gStatus = 'playing'; gScore = 0; document.getElementById('score').innerText = '0';
+        ball = { x: 400, y: 340, dx: (Math.random() - 0.5) * 8, dy: -6 };
+        initBricks();
+        document.getElementById('overlayIdle').classList.add('hidden');
+        document.getElementById('overlayIdle').classList.remove('flex');
+        document.getElementById('overlayGameOver').classList.add('hidden');
+        document.getElementById('overlayGameOver').classList.remove('flex');
+        document.getElementById('overlayWon').classList.add('hidden');
+        document.getElementById('overlayWon').classList.remove('flex');
+        if (gLoop) clearInterval(gLoop);
+        gLoop = setInterval(updateGame, 16);
+    }
+
+    function updateGame() {
+        ball.x += ball.dx; ball.y += ball.dy;
+        if (ball.x + B_RAD > G_WIDTH || ball.x - B_RAD < 0) ball.dx *= -1;
+        if (ball.y - B_RAD < 0) ball.dy *= -1;
+        else if (ball.y + B_RAD > G_HEIGHT - P_HEIGHT - 10) {
+            if (ball.x > paddleX && ball.x < paddleX + P_WIDTH) {
+                ball.dy = -Math.abs(ball.dy);
+                ball.dx = (ball.x - (paddleX + P_WIDTH / 2)) * 0.2;
+            } else if (ball.y > G_HEIGHT) endGame(false);
+        }
+        let brokenCount = 0;
+        bricks.forEach((b, i) => {
+            if (b.status === 1) {
+                if (ball.x > b.x && ball.x < b.x + 74 && ball.y > b.y && ball.y < b.y + 24) {
+                    ball.dy *= -1; b.status = 0;
+                    document.getElementById(`b-${i}`).style.opacity = '0';
+                    gScore += 10; document.getElementById('score').innerText = gScore;
+                }
+            } else brokenCount++;
+        });
+        if (brokenCount === bricks.length) endGame(true);
+        ballEl.setAttribute("transform", `translate(${ball.x}, ${ball.y})`);
+        padEl.setAttribute("transform", `translate(${paddleX}, ${G_HEIGHT - P_HEIGHT - 10})`);
+    }
+
+    function endGame(win) {
+        clearInterval(gLoop); gStatus = 'finished';
+        if (gScore > gHighScore) { gHighScore = gScore; document.getElementById('highScore').innerText = gHighScore; }
+        const screen = win ? 'overlayWon' : 'overlayGameOver';
+        document.getElementById(screen).classList.remove('hidden');
+        document.getElementById(screen).classList.add('flex');
+    }
+
+    gContainer.addEventListener('mousemove', e => {
+        const rect = gContainer.getBoundingClientRect();
+        paddleX = Math.max(0, Math.min(((e.clientX - rect.left) * (G_WIDTH / rect.width)) - P_WIDTH / 2, G_WIDTH - P_WIDTH));
+    });
+
+    gContainer.addEventListener('click', () => { if (gStatus === 'idle') resetGame(); });
 
     </script>
 </body>
